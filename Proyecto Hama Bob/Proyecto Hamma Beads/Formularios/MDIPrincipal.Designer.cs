@@ -86,7 +86,6 @@
             this.gbBorde = new System.Windows.Forms.GroupBox();
             this.rdbBordeBlanco = new System.Windows.Forms.RadioButton();
             this.rdbBordeNegro = new System.Windows.Forms.RadioButton();
-            this.gbColores = new System.Windows.Forms.GroupBox();
             this.gbColoresSeleccionados = new System.Windows.Forms.GroupBox();
             this.rdbMisHamas = new System.Windows.Forms.RadioButton();
             this.rdbNingunColor = new System.Windows.Forms.RadioButton();
@@ -101,12 +100,13 @@
             this.rdbMidi = new System.Windows.Forms.RadioButton();
             this.rdbMini = new System.Windows.Forms.RadioButton();
             this.btnGuardarConfig = new System.Windows.Forms.Button();
+            this.tbColores = new System.Windows.Forms.TableLayoutPanel();
             this.tablaDerecha = new System.Windows.Forms.TableLayoutPanel();
             this.tbImagenes = new System.Windows.Forms.TableLayoutPanel();
-            this.pbZoomOriginal = new Proyecto_Hamma_Beads.Controles.PictureBoxZoom();
-            this.pbZoomGenerada = new Proyecto_Hamma_Beads.Controles.PictureBoxZoom();
             this.gbEstadisticas = new System.Windows.Forms.GroupBox();
             this.barraProgreso = new System.Windows.Forms.ProgressBar();
+            this.pbZoomOriginal = new Proyecto_Hamma_Beads.Controles.PictureBoxZoom();
+            this.pbZoomGenerada = new Proyecto_Hamma_Beads.Controles.PictureBoxZoom();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -601,7 +601,7 @@
             this.gbIzquierda.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbIzquierda.Location = new System.Drawing.Point(3, 3);
             this.gbIzquierda.Name = "gbIzquierda";
-            this.gbIzquierda.Size = new System.Drawing.Size(440, 444);
+            this.gbIzquierda.Size = new System.Drawing.Size(350, 444);
             this.gbIzquierda.TabIndex = 1;
             this.gbIzquierda.TabStop = false;
             // 
@@ -611,11 +611,11 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.gbBorde, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.gbColores, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.gbColoresSeleccionados, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.gbTipos, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.gbTamaniosHama, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.btnGuardarConfig, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.tbColores, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -624,7 +624,8 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 140F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(434, 425);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(344, 425);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // gbBorde
@@ -632,9 +633,9 @@
             this.gbBorde.Controls.Add(this.rdbBordeBlanco);
             this.gbBorde.Controls.Add(this.rdbBordeNegro);
             this.gbBorde.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbBorde.Location = new System.Drawing.Point(220, 329);
+            this.gbBorde.Location = new System.Drawing.Point(3, 328);
             this.gbBorde.Name = "gbBorde";
-            this.gbBorde.Size = new System.Drawing.Size(211, 64);
+            this.gbBorde.Size = new System.Drawing.Size(166, 64);
             this.gbBorde.TabIndex = 4;
             this.gbBorde.TabStop = false;
             this.gbBorde.Text = "Color Borde / Color Numero";
@@ -644,9 +645,9 @@
             this.rdbBordeBlanco.AutoSize = true;
             this.rdbBordeBlanco.Location = new System.Drawing.Point(6, 42);
             this.rdbBordeBlanco.Name = "rdbBordeBlanco";
-            this.rdbBordeBlanco.Size = new System.Drawing.Size(179, 17);
+            this.rdbBordeBlanco.Size = new System.Drawing.Size(154, 17);
             this.rdbBordeBlanco.TabIndex = 1;
-            this.rdbBordeBlanco.Text = "Borde Blanco / Numeros Negros";
+            this.rdbBordeBlanco.Text = "Borde Blanco / Num Negro";
             this.rdbBordeBlanco.UseVisualStyleBackColor = true;
             // 
             // rdbBordeNegro
@@ -654,24 +655,11 @@
             this.rdbBordeNegro.AutoSize = true;
             this.rdbBordeNegro.Location = new System.Drawing.Point(6, 19);
             this.rdbBordeNegro.Name = "rdbBordeNegro";
-            this.rdbBordeNegro.Size = new System.Drawing.Size(169, 17);
+            this.rdbBordeNegro.Size = new System.Drawing.Size(154, 17);
             this.rdbBordeNegro.TabIndex = 0;
-            this.rdbBordeNegro.Text = "Borde Negro / Numero Blanco";
+            this.rdbBordeNegro.Text = "Borde Negro / Num Blanco";
             this.rdbBordeNegro.UseVisualStyleBackColor = true;
             this.rdbBordeNegro.CheckedChanged += new System.EventHandler(this.rdbBorde_CheckedChanged);
-            // 
-            // gbColores
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this.gbColores, 2);
-            this.gbColores.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbColores.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbColores.Location = new System.Drawing.Point(3, 3);
-            this.gbColores.Name = "gbColores";
-            this.gbColores.Size = new System.Drawing.Size(428, 180);
-            this.gbColores.TabIndex = 0;
-            this.gbColores.TabStop = false;
-            this.gbColores.Text = "Colores";
-            this.gbColores.Paint += new System.Windows.Forms.PaintEventHandler(this.gbColores_Paint);
             // 
             // gbColoresSeleccionados
             // 
@@ -679,9 +667,9 @@
             this.gbColoresSeleccionados.Controls.Add(this.rdbNingunColor);
             this.gbColoresSeleccionados.Controls.Add(this.rdbSeleccionarTodosColores);
             this.gbColoresSeleccionados.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbColoresSeleccionados.Location = new System.Drawing.Point(3, 189);
+            this.gbColoresSeleccionados.Location = new System.Drawing.Point(3, 258);
             this.gbColoresSeleccionados.Name = "gbColoresSeleccionados";
-            this.gbColoresSeleccionados.Size = new System.Drawing.Size(211, 134);
+            this.gbColoresSeleccionados.Size = new System.Drawing.Size(166, 64);
             this.gbColoresSeleccionados.TabIndex = 1;
             this.gbColoresSeleccionados.TabStop = false;
             this.gbColoresSeleccionados.Text = "Seleccionar Colores";
@@ -727,9 +715,9 @@
             this.gbTipos.Controls.Add(this.chkTipoNeon);
             this.gbTipos.Controls.Add(this.chkTipoNormal);
             this.gbTipos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbTipos.Location = new System.Drawing.Point(220, 189);
+            this.gbTipos.Location = new System.Drawing.Point(175, 258);
             this.gbTipos.Name = "gbTipos";
-            this.gbTipos.Size = new System.Drawing.Size(211, 134);
+            this.gbTipos.Size = new System.Drawing.Size(166, 64);
             this.gbTipos.TabIndex = 2;
             this.gbTipos.TabStop = false;
             this.gbTipos.Text = "Tipos Colores";
@@ -799,9 +787,9 @@
             this.gbTamaniosHama.Controls.Add(this.rdbMidi);
             this.gbTamaniosHama.Controls.Add(this.rdbMini);
             this.gbTamaniosHama.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbTamaniosHama.Location = new System.Drawing.Point(3, 329);
+            this.gbTamaniosHama.Location = new System.Drawing.Point(175, 328);
             this.gbTamaniosHama.Name = "gbTamaniosHama";
-            this.gbTamaniosHama.Size = new System.Drawing.Size(211, 64);
+            this.gbTamaniosHama.Size = new System.Drawing.Size(166, 64);
             this.gbTamaniosHama.TabIndex = 3;
             this.gbTamaniosHama.TabStop = false;
             this.gbTamaniosHama.Text = "Tamaño Hama";
@@ -834,15 +822,30 @@
             this.tableLayoutPanel2.SetColumnSpan(this.btnGuardarConfig, 2);
             this.btnGuardarConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnGuardarConfig.Image = global::Proyecto_Hamma_Beads.Properties.Resources._1388157583_78;
-            this.btnGuardarConfig.Location = new System.Drawing.Point(3, 399);
+            this.btnGuardarConfig.Location = new System.Drawing.Point(3, 398);
             this.btnGuardarConfig.Name = "btnGuardarConfig";
-            this.btnGuardarConfig.Size = new System.Drawing.Size(428, 23);
+            this.btnGuardarConfig.Size = new System.Drawing.Size(338, 24);
             this.btnGuardarConfig.TabIndex = 5;
             this.btnGuardarConfig.Text = "Guardar Configuracion";
             this.btnGuardarConfig.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnGuardarConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnGuardarConfig.UseVisualStyleBackColor = true;
             this.btnGuardarConfig.Click += new System.EventHandler(this.btnGuardarConfig_Click);
+            // 
+            // tbColores
+            // 
+            this.tbColores.AutoScroll = true;
+            this.tbColores.ColumnCount = 1;
+            this.tableLayoutPanel2.SetColumnSpan(this.tbColores, 2);
+            this.tbColores.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tbColores.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbColores.Location = new System.Drawing.Point(3, 3);
+            this.tbColores.Name = "tbColores";
+            this.tbColores.RowCount = 1;
+            this.tableLayoutPanel2.SetRowSpan(this.tbColores, 2);
+            this.tbColores.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tbColores.Size = new System.Drawing.Size(338, 249);
+            this.tbColores.TabIndex = 6;
             // 
             // tablaDerecha
             // 
@@ -853,13 +856,13 @@
             this.tablaDerecha.Controls.Add(this.gbEstadisticas, 1, 0);
             this.tablaDerecha.Controls.Add(this.barraProgreso, 0, 2);
             this.tablaDerecha.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tablaDerecha.Location = new System.Drawing.Point(449, 3);
+            this.tablaDerecha.Location = new System.Drawing.Point(359, 3);
             this.tablaDerecha.Name = "tablaDerecha";
             this.tablaDerecha.RowCount = 3;
             this.tablaDerecha.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tablaDerecha.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tablaDerecha.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
-            this.tablaDerecha.Size = new System.Drawing.Size(518, 444);
+            this.tablaDerecha.Size = new System.Drawing.Size(608, 444);
             this.tablaDerecha.TabIndex = 2;
             // 
             // tbImagenes
@@ -877,43 +880,13 @@
             this.tablaDerecha.SetRowSpan(this.tbImagenes, 2);
             this.tbImagenes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tbImagenes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tbImagenes.Size = new System.Drawing.Size(512, 416);
+            this.tbImagenes.Size = new System.Drawing.Size(602, 416);
             this.tbImagenes.TabIndex = 0;
-            // 
-            // pbZoomOriginal
-            // 
-            this.pbZoomOriginal.AllowDrop = true;
-            this.pbZoomOriginal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbZoomOriginal.Imagen = null;
-            this.pbZoomOriginal.ImagenZoom = null;
-            this.pbZoomOriginal.Location = new System.Drawing.Point(3, 3);
-            this.pbZoomOriginal.Name = "pbZoomOriginal";
-            this.pbZoomOriginal.Ruta = "";
-            this.pbZoomOriginal.Size = new System.Drawing.Size(506, 202);
-            this.pbZoomOriginal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
-            this.pbZoomOriginal.TabIndex = 6;
-            this.pbZoomOriginal.Zoom = 1;
-            this.pbZoomOriginal.ZoomActivado = false;
-            // 
-            // pbZoomGenerada
-            // 
-            this.pbZoomGenerada.AllowDrop = true;
-            this.pbZoomGenerada.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbZoomGenerada.Imagen = null;
-            this.pbZoomGenerada.ImagenZoom = null;
-            this.pbZoomGenerada.Location = new System.Drawing.Point(3, 211);
-            this.pbZoomGenerada.Name = "pbZoomGenerada";
-            this.pbZoomGenerada.Ruta = "";
-            this.pbZoomGenerada.Size = new System.Drawing.Size(506, 202);
-            this.pbZoomGenerada.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
-            this.pbZoomGenerada.TabIndex = 7;
-            this.pbZoomGenerada.Zoom = 1;
-            this.pbZoomGenerada.ZoomActivado = false;
             // 
             // gbEstadisticas
             // 
             this.gbEstadisticas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbEstadisticas.Location = new System.Drawing.Point(521, 3);
+            this.gbEstadisticas.Location = new System.Drawing.Point(611, 3);
             this.gbEstadisticas.Name = "gbEstadisticas";
             this.tablaDerecha.SetRowSpan(this.gbEstadisticas, 2);
             this.gbEstadisticas.Size = new System.Drawing.Size(1, 416);
@@ -928,8 +901,38 @@
             this.barraProgreso.Location = new System.Drawing.Point(0, 422);
             this.barraProgreso.Margin = new System.Windows.Forms.Padding(0);
             this.barraProgreso.Name = "barraProgreso";
-            this.barraProgreso.Size = new System.Drawing.Size(518, 22);
+            this.barraProgreso.Size = new System.Drawing.Size(608, 22);
             this.barraProgreso.TabIndex = 6;
+            // 
+            // pbZoomOriginal
+            // 
+            this.pbZoomOriginal.AllowDrop = true;
+            this.pbZoomOriginal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbZoomOriginal.Imagen = null;
+            this.pbZoomOriginal.ImagenZoom = null;
+            this.pbZoomOriginal.Location = new System.Drawing.Point(3, 3);
+            this.pbZoomOriginal.Name = "pbZoomOriginal";
+            this.pbZoomOriginal.Ruta = "";
+            this.pbZoomOriginal.Size = new System.Drawing.Size(596, 202);
+            this.pbZoomOriginal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
+            this.pbZoomOriginal.TabIndex = 6;
+            this.pbZoomOriginal.Zoom = 4;
+            this.pbZoomOriginal.ZoomActivado = false;
+            // 
+            // pbZoomGenerada
+            // 
+            this.pbZoomGenerada.AllowDrop = true;
+            this.pbZoomGenerada.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbZoomGenerada.Imagen = null;
+            this.pbZoomGenerada.ImagenZoom = null;
+            this.pbZoomGenerada.Location = new System.Drawing.Point(3, 211);
+            this.pbZoomGenerada.Name = "pbZoomGenerada";
+            this.pbZoomGenerada.Ruta = "";
+            this.pbZoomGenerada.Size = new System.Drawing.Size(596, 202);
+            this.pbZoomGenerada.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
+            this.pbZoomGenerada.TabIndex = 7;
+            this.pbZoomGenerada.Zoom = 8;
+            this.pbZoomGenerada.ZoomActivado = false;
             // 
             // MDIPrincipal
             // 
@@ -1021,7 +1024,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox gbIzquierda;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.GroupBox gbColores;
         private System.Windows.Forms.GroupBox gbColoresSeleccionados;
         private System.Windows.Forms.RadioButton rdbMisHamas;
         private System.Windows.Forms.RadioButton rdbNingunColor;
@@ -1051,6 +1053,7 @@
         private System.Windows.Forms.TableLayoutPanel tbImagenes;
         private Controles.PictureBoxZoom pbZoomOriginal;
         private Controles.PictureBoxZoom pbZoomGenerada;
+        private System.Windows.Forms.TableLayoutPanel tbColores;
     }
 }
 

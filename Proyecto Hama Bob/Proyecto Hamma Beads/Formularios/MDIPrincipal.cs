@@ -237,33 +237,55 @@ namespace Proyecto_Hamma_Beads.Formularios
         #endregion
         #endregion
 
+        /// <summary>
+        /// Funcion que carga los controles iniciales en el grid con todos los colores que tengamos disponibles
+        /// </summary>
         private void Inicializar_Controles_Colores()
         {
+            tbColores.RowStyles.Clear();            
+
             foreach (ColorHama.eTipoHama _tipo in Enum.GetValues(typeof(ColorHama.eTipoHama)))
             {
-                gbColores.Controls.Add(new Label()
-                    {
-                        Text = _tipo.ToString(),
-                        Font = new System.Drawing.Font("Microsoft Sans Serif", 8, FontStyle.Bold),
-                        Size = new Size(120, 20)
-                    });
+                tbColores.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                GroupBox grTipo = new GroupBox() { Text = _tipo.ToString(), Name = "gb" + _tipo.ToString()};
+                grTipo.Dock = DockStyle.Fill;
+                grTipo.AutoSize = true;
+                tbColores.Controls.Add(grTipo, 0, tbColores.RowStyles.Count - 1);
+                TableLayoutPanel tbTipo = new TableLayoutPanel();
+                tbTipo.Dock = DockStyle.Fill;
+                tbTipo.AutoSize = true;
+                grTipo.Controls.Add(tbTipo);                                
+                
+                List<ColorHama> ColoresTipo = listaColores.Where(x => x.Tipo == _tipo).ToList();                
+                int columna = 0;
+                int numColumnas = 2;
 
-                List<ColorHama> ColoresTipo = listaColores.Where(x => x.Tipo == _tipo).ToList();
+                for (int i = 0; i < numColumnas; i++)
+                    tbTipo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
 
                 foreach (ColorHama _color in ColoresTipo)
                 {
+                    if (columna == 0)
+                        tbTipo.RowStyles.Add(new RowStyle(SizeType.Absolute,30));
+                    
                     colorCheckBox chkColor = new colorCheckBox()
                     {
                         NombreColor = _color.Nombre,
                         Name = "chk" + _color.Nombre,
-                        Size = new Size(100, 22),
+                        //Size = new Size(100, 22),
                         Color = _color
                     };
 
                     chkColor.Chk.Checked = _color.Habilitado;
 
-                    gbColores.Controls.Add(chkColor);
-                }
+                    tbTipo.Controls.Add(chkColor, columna, tbTipo.RowStyles.Count - 1);
+
+                    columna++;
+
+                    ///Si ya he llegado a la ultima columna, vuelvo a la columna inicial. Los voy colocando de izquierda a derecha, y de arriba a abajo.
+                    if (columna == numColumnas)
+                        columna = 0;
+                }                                         
             }
         }
 
@@ -278,29 +300,6 @@ namespace Proyecto_Hamma_Beads.Formularios
             {
                 Y += EspaciadoY;
             }
-        }
-
-        private void gbColores_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
-        {
-            int posX = 0, posY = 0;
-            bolNuevoTipo = false;
-
-            //Relocalizo los controles del groupbox
-            foreach (Control ctr in gbColores.Controls)
-            {
-                if (ctr.GetType() == typeof(Label) & bolNuevoTipo)
-                {
-                    posY += EspaciadoEntreTipo_Alto;
-                    bolNuevoTipo = false;
-                }
-                else if (ctr.GetType() == typeof(colorCheckBox) & (!bolNuevoTipo))
-                    bolNuevoTipo = true;
-
-                Calcular_Siguiente_Posicion(ref posX, ref posY, gbColores.Width, gbColores.Height, EspaciadoEntreColumnas_Ancho, EspaciadoEntreColores_Alto, ctr.Height);
-                ctr.Location = new Point(posX, posY);
-            }
-
-
         }
 
         private void Cargar_Imagen(string rutaImagen)
@@ -2312,8 +2311,9 @@ namespace Proyecto_Hamma_Beads.Formularios
             {
                 try
                 {
-                    colorCheckBox chk = (colorCheckBox)gbColores.Controls.Find("chk" + color.Nombre, true)[0];
-                    chk.NombreColor = color.Nombre + " (" + color.NumPiezas + ")";
+                    colorCheckBox chk = (colorCheckBox)tbColores.Controls.Find("chk" + color.Nombre, true)[0];
+                    chk.NumPiezas = color.NumPiezas;
+                    //chk.NombreColor = color.Nombre + " (" + color.NumPiezas + ")";
                 }
                 catch { }
             }
@@ -2407,16 +2407,7 @@ namespace Proyecto_Hamma_Beads.Formularios
             RadioButton rdb = (RadioButton)sender;
 
             if (rdb.Checked)
-            {
-                foreach (colorCheckBox chk in gbColores.Controls.OfType<colorCheckBox>())
-                    chk.Chk.Checked = true;
-
-                ///Deberia valer solo con esta segunda linea, pero como no controlo que solo se chequee cuando esten todos chequeados...no me vale.
-                ///Ya que si ya está chequeado, no implica que estén todos chequedados de ese tipo, y si ya está chequeado, no salta el evento para que los chequee
-                ///ya que el la propiedad CHECKED tiene el mismo valor en todo momento.
-                foreach (CheckBox chk in gbTipos.Controls.OfType<CheckBox>())
-                    chk.Checked = true;
-            }
+                Chequear_Colores(true);
         }
 
         private void rdbNingunColor_CheckedChanged(object sender, EventArgs e)
@@ -2424,13 +2415,63 @@ namespace Proyecto_Hamma_Beads.Formularios
             RadioButton rdb = (RadioButton)sender;
 
             if (rdb.Checked)
-            {
-                foreach (colorCheckBox chk in gbColores.Controls.OfType<colorCheckBox>())
-                    chk.Chk.Checked = false;
+                Chequear_Colores(false);
+        }
 
-                foreach (CheckBox chk in gbTipos.Controls.OfType<CheckBox>())
-                    chk.Checked = false;
+        private void rdbBorde_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rdb = (RadioButton)sender;
+            if (rdb.Checked)
+            {
+                colorBorde = Color.Black;
+                colorNumero = Color.White;
             }
+            else
+            {
+                colorBorde = Color.White;
+                colorNumero = Color.Black;
+            }
+
+        }
+
+        private void chkTipo_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox chkTipo = (CheckBox)sender;
+
+            ColorHama.eTipoHama tipo = (ColorHama.eTipoHama)Convert.ToInt16(chkTipo.Tag);
+
+            IEnumerable<colorCheckBox> coloresChk = Obtener_ColorCheckBox();
+
+            if (coloresChk != null)
+                foreach (colorCheckBox chk in coloresChk.Where(x => x.Tipo.Equals(tipo)))
+                    chk.Chk.Checked = chkTipo.Checked;          
+            
+            chkTipo = null;
+        }
+
+        private IEnumerable<colorCheckBox> Obtener_ColorCheckBox()
+        {            
+            foreach (GroupBox gb in tbColores.Controls.OfType<GroupBox>())
+            {
+                ///Doy por hecho que dentro de los groupbox va a haber un tablelayoutpanel con los controles dentro
+                ///MAS INFO ==> Inicializar_Controles_Colores()
+                TableLayoutPanel tb = gb.Controls[0] as TableLayoutPanel;
+                return tb.Controls.OfType<colorCheckBox>();
+            }
+
+            return null;
+        }
+
+        private void Chequear_Colores(bool Valor)
+        {
+            foreach (colorCheckBox chk in Obtener_ColorCheckBox())
+                chk.Chk.Checked = Valor;
+            
+            ///Deberia valer solo con esta segunda linea, pero como no controlo que solo se chequee cuando esten todos chequeados...no me vale.
+            ///Ya que si ya está chequeado, no implica que estén todos chequedados de ese tipo, y si ya está chequeado, no salta el evento para que los chequee
+            ///ya que el la propiedad CHECKED tiene el mismo valor en todo momento.
+            foreach (CheckBox chk in gbTipos.Controls.OfType<CheckBox>())
+                chk.Checked = Valor;
         }
 
         private void rdbMisHamas_CheckedChanged(object sender, EventArgs e)
@@ -2671,194 +2712,7 @@ namespace Proyecto_Hamma_Beads.Formularios
                     , rutaGuardado.Substring(0, rutaGuardado.LastIndexOf("\\")));
             }
         }
-        #endregion
-
-        private void rdbBorde_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton rdb = (RadioButton)sender;
-            if (rdb.Checked)
-            {
-                colorBorde = Color.Black;
-                colorNumero = Color.White;
-            }
-            else
-            {
-                colorBorde = Color.White;
-                colorNumero = Color.Black;
-            }
-
-        }
-
-        //#region PictureBox MouseClick & Zoom
-
-        //private void pb_MouseClick(object sender, MouseEventArgs e)
-        //{
-        //    PictureBox pic = (PictureBox)sender;
-
-        //    if (e.Button == System.Windows.Forms.MouseButtons.Left)
-        //        Zoom_Normal(pic);
-        //    else if (e.Button == System.Windows.Forms.MouseButtons.Right)
-        //        Zoom_Aumentado(pic);
-        //}
-
-        //private void Zoom_Normal(PictureBox pic)
-        //{            
-        //    if (pic.Image != null)
-        //    {
-        //        if (pic.SizeMode == PictureBoxSizeMode.Zoom)
-        //        {
-        //            pic.Dock = DockStyle.None;
-        //            pic.SizeMode = PictureBoxSizeMode.AutoSize;
-        //        }
-        //        else
-        //        {
-        //            pic.Dock = DockStyle.Fill;
-        //            pic.SizeMode = PictureBoxSizeMode.Zoom;
-        //        }
-        //    }            
-        //}
-
-        //private void Zoom_Aumentado(PictureBox pic)
-        //{
-        //    bolModoZoom = !bolModoZoom;
-
-        //    if (bolModoZoom)
-        //    {
-        //        pic.MouseMove += new MouseEventHandler(pic_Zoom);
-        //        pic.MouseWheel += new MouseEventHandler(pic_MouseWheel_AumentarZoom);
-        //    }
-        //    else
-        //    {
-        //        pic.MouseMove -= new MouseEventHandler(pic_Zoom);
-        //        pic.MouseWheel -= new MouseEventHandler(pic_MouseWheel_AumentarZoom);
-        //    }
-
-        //}
-
-        //void pic_MouseWheel_AumentarZoom(object sender, MouseEventArgs e)
-        //{
-        //    if (e.Delta > 0)
-        //    {
-        //        if (tbOriginal_Zoom.Value != tbOriginal_Zoom.Maximum) tbOriginal_Zoom.Value += 1;
-        //    }
-        //    else
-        //    {
-        //        if (tbOriginal_Zoom.Value != tbOriginal_Zoom.Minimum) tbOriginal_Zoom.Value -= 1;
-        //    }
-
-        //    pic_Zoom(sender, e);
-        //}
-
-        //void pic_Zoom(object sender, MouseEventArgs e)
-        //{
-        //    PictureBox pic = (PictureBox) sender;
-
-        //    int zoomAncho = Convert.ToInt16(pbOriginal_Zoom.Width / (Math.Pow(iAumentoZoom, tbOriginal_Zoom.Value - 1)));
-        //    int zoomAlto = Convert.ToInt16(pbOriginal_Zoom.Height / (Math.Pow(iAumentoZoom, tbOriginal_Zoom.Value - 1)));
-
-        //    Point cursor = xy_projection(pic.Image, pic, e.X, e.Y);
-
-        //    Bitmap tmpBitMap = new Bitmap(pbOriginal_Zoom.Width,pbOriginal_Zoom.Height);
-
-        //    Graphics gr = Graphics.FromImage(tmpBitMap);
-
-        //    gr.Clear(Color.White);
-        //    gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-        //    gr.DrawImage(pic.Image,
-        //        new Rectangle(0, 0, pbOriginal_Zoom.Width, pbOriginal_Zoom.Height),
-        //        new Rectangle(
-        //            cursor.X - (zoomAncho / 2),
-        //            cursor.Y - (zoomAlto / 2),
-        //            zoomAncho,
-        //            zoomAlto),                    
-        //            GraphicsUnit.Pixel);
-
-        //    pbOriginal_Zoom.Image = tmpBitMap;
-
-        //    gr.Dispose();
-
-        //    if (!pic.Focused)
-        //        pic.Focus();
-        //}
-
-        //Point xy_projection(Image bmp, PictureBox pic, int x, int y)
-        //{
-        //    int heightB = bmp.Height;
-        //    int heightP = pic.Height;
-        //    int widthB = bmp.Width;
-        //    int widthP = pic.Width;
-        //    double xRatio = (double)widthB / (double)widthP;
-        //    double yRatio = (double)heightB / (double)heightP;
-        //    int[] xy = new int[2];
-        //    if (pic.SizeMode == PictureBoxSizeMode.StretchImage)
-        //    {
-        //        xy[0] = (int)(x * xRatio);
-        //        xy[1] = (int)(y * yRatio);
-        //    }
-        //    else if (pic.SizeMode == PictureBoxSizeMode.CenterImage)
-        //    {
-        //        int borderHeight = (heightP - heightB) / 2;
-        //        int borderWidth = (widthP - widthB) / 2;
-        //        xy[0] = x - borderWidth;
-        //        xy[1] = y - borderHeight;
-        //    }
-        //    else if (pic.SizeMode == PictureBoxSizeMode.Zoom)
-        //    {
-        //        double ratio = xRatio;
-        //        bool x_filled = true;
-        //        if (ratio < yRatio)
-        //        {
-        //            ratio = yRatio;
-        //            x_filled = false;
-        //        }
-        //        if (x_filled)
-        //        {
-        //            heightB = (int)(heightB / ratio);
-        //            int borderHeight = (heightP - heightB) / 2;
-        //            xy[0] = (int)(x * ratio);
-        //            xy[1] = (int)((y - borderHeight) * ratio);
-        //        }
-        //        else
-        //        {
-        //            widthB = (int)(widthB / ratio);
-        //            int borderWidth = (widthP - widthB) / 2;
-        //            xy[0] = (int)((x - borderWidth) * ratio);
-        //            xy[1] = (int)(y * ratio);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        xy[0] = x;
-        //        xy[1] = y;
-        //    }
-
-        //    return new Point(xy[0], xy[1]);
-        //}
-
-
-        //#endregion
-
-        //private void toolStripButton1_Click(object sender, EventArgs e)
-        //{
-        //    this.modoLupa = !this.modoLupa;
-        //}
-
-        //private void RealizoZoom(Graphics graficos)
-        //{            
-        //    pbOriginal.Invalidate();
-        //    pbOriginal.Update();
-
-        //    Point posicion = pbOriginal.PointToClient(Cursor.Position);
-        //    ////posicion = Cursor.Position;
-        //    ////this.Text = "POS X = " + posicion.X + " - Y = " + posicion.Y;            
-        //    //graficos.Clear(Color.Transparent);
-        //    graficos.DrawRectangle(Pens.Red, new Rectangle(new Point(posicion.X, posicion.Y - 100), new Size(100,100)));
-        //    graficos.DrawImage(pbOriginal.Image,
-        //        new Rectangle(new Point(posicion.X+1, (posicion.Y + 1) - 100), new Size(99,99)),
-        //        new Rectangle(new Point(((pbOriginal.Image.Width * posicion.X) / pbOriginal.Width) , ((pbOriginal.Image.Height * posicion.Y) / pbOriginal.Height)), new Size(25,25)),
-        //        GraphicsUnit.Pixel);       
-        //}        
+        #endregion        
 
         #region XML CONFIG
 
@@ -3129,18 +2983,7 @@ namespace Proyecto_Hamma_Beads.Formularios
             bmpComposicion = null;
         }
 
-        private void chkTipo_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox chk = (CheckBox)sender;
-
-            ColorHama.eTipoHama tipo = (ColorHama.eTipoHama)Convert.ToInt16(chk.Tag);
-
-            foreach (colorCheckBox colorChk in gbColores.Controls.OfType<colorCheckBox>().Where(x => x.Tipo.Equals(tipo)))
-                colorChk.Chk.Checked = chk.Checked;
-
-            chk = null;
-
-        }
+        
 
         private void btnGuardarConfig_Click(object sender, EventArgs e)
         {

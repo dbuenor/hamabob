@@ -23,6 +23,24 @@ namespace Proyecto_Hamma_Beads.Controles
             }            
         }
 
+        private int? _numPiezas;
+        public int? NumPiezas
+        {
+            get
+            {
+                return _numPiezas;
+            }
+            set
+            {
+                _numPiezas = value;
+
+                if (_numPiezas.HasValue)
+                    lblNumPiezas.Text = String.Format("({0})", NumPiezas.Value);
+                else
+                    lblNumPiezas.Text = "";
+            }
+        }
+
         public ColorHama.eTipoHama Tipo
         {
             get
