@@ -83,7 +83,7 @@ namespace Proyecto_Hamma_Beads.Controles
             }
             set
             {
-                tbarZoom.Value = value * AumentoZoom;
+                tbarZoom.Value = value / AumentoZoom;
             }
         }
         
