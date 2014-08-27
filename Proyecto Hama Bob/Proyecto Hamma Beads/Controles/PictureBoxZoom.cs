@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using Proyecto_Hamma_Beads.Librerias;
 
 namespace Proyecto_Hamma_Beads.Controles
 {
@@ -17,6 +18,25 @@ namespace Proyecto_Hamma_Beads.Controles
         private bool _ZoomActivado = false;
         private int _AumentoZoom = 2;
         private static ToolTip tt = new ToolTip();
+
+        public Common.Medida Ancho, Alto;
+        
+        private eTipoMedida _TipoMedida;
+        public eTipoMedida TipoMedida
+        {
+            get
+            {
+                return _TipoMedida;
+            }
+            set
+            {
+                if (value != _TipoMedida)
+                {
+                    _TipoMedida = value;
+                    Actualizar_Medidas();
+                }
+            }
+        }
 
         [Browsable(true)]
         public bool ZoomActivado 
@@ -41,7 +61,8 @@ namespace Proyecto_Hamma_Beads.Controles
                     btnMostrarOcultar.ImageIndex = 1;
 
                     pbImagen.MouseMove += new MouseEventHandler(pic_Zoom);
-                    pbImagen.MouseWheel += new MouseEventHandler(pic_MouseWheel_AumentarZoom);
+                    pbImagen.MouseLeave += new EventHandler(pbImagen_MouseLeave);
+                    pbImagen.MouseWheel += new MouseEventHandler(pic_MouseWheel_AumentarZoom);                    
 
                     Redimensiono_PictureBox_Zoom();
                                                             
@@ -62,8 +83,19 @@ namespace Proyecto_Hamma_Beads.Controles
                     tbarZoom.Visible = false;
 
                     tt.SetToolTip(pbImagen, null);
-                }                
+                }                               
             }
+        }
+
+        /// <summary>
+        /// Establezco el icono por defecto en caso de abandonar el pictureBox cuando está activado el zoom.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void pbImagen_MouseLeave(object sender, EventArgs e)
+        {
+            if (_ZoomActivado)
+                this.Cursor = Cursors.Default;
         }
 
         private int AumentoZoom
@@ -109,8 +141,22 @@ namespace Proyecto_Hamma_Beads.Controles
             {
                 pbImagen.Image = value;
                 if (pbImagen.Image != null)
-                    this.lblMedidas.Text = pbImagen.Image.Width + "x" + pbImagen.Image.Height;                
+                {
+                    Ancho.Px = pbImagen.Image.Width;
+                    Alto.Px = pbImagen.Image.Height;
+
+                    Actualizar_Medidas();
+                }                    
             }
+        }
+
+        private void Actualizar_Medidas()
+        {
+            this.lblMedidas.Text = Ancho.Devolver_Medida(TipoMedida) + "x" + Alto.Devolver_Medida(TipoMedida);
+            if (TipoMedida == eTipoMedida.Pixeles)
+                this.lblMedidas.Text += " px";
+            else if (TipoMedida == eTipoMedida.Centimetros)
+                this.lblMedidas.Text += " cm";
         }
 
         public string Ruta
@@ -148,8 +194,26 @@ namespace Proyecto_Hamma_Beads.Controles
 
             this.Size = new Size(200, 100);
 
+            Ancho = new Common.Medida();
+            Alto = new Common.Medida();
+
             Add_ToolTips();
-            
+
+            TipoMedida = eTipoMedida.Pixeles;
+        }
+
+        public PictureBoxZoom(eTipoMedida tipoMedida)
+        {
+            InitializeComponent();
+
+            this.Size = new Size(200, 100);
+
+            Alto = new Common.Medida();
+            Ancho = new Common.Medida();            
+
+            Add_ToolTips();
+
+            TipoMedida = tipoMedida;
         }
 
         #region Funciones
@@ -178,8 +242,16 @@ namespace Proyecto_Hamma_Beads.Controles
             }
         }
 
+
+        /// <summary>
+        /// Aqui es donde pinto la imagen con el zoom
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pic_Zoom(object sender, MouseEventArgs e)
         {
+            this.Cursor = Cursors.Cross;
+
             PictureBox pic = (PictureBox)sender;
 
             if (pic.Image != null)
@@ -212,6 +284,17 @@ namespace Proyecto_Hamma_Beads.Controles
                         zoomAncho,
                         zoomAlto),
                         GraphicsUnit.Pixel);
+
+                int ptoMedioAlto = pbZoom.Height / 2;
+                int ptoMedioAncho = pbZoom.Width / 2;
+
+                gr.DrawLine(Pens.Black,
+                    new Point(ptoMedioAncho - 10, ptoMedioAlto    ),
+                    new Point(ptoMedioAncho + 10, ptoMedioAlto    ));
+
+                gr.DrawLine(Pens.Black,
+                    new Point(ptoMedioAncho    , ptoMedioAlto - 10),
+                    new Point(ptoMedioAncho    , ptoMedioAlto + 10));
 
                 pbZoom.Image = tmpBitMap;
 

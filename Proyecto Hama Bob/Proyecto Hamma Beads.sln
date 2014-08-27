@@ -6,6 +6,10 @@ EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_Instalador", "Setup_Instalador\Setup_Instalador.vdproj", "{C766ACCB-B053-4E3E-B523-F214FED2B5DA}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86

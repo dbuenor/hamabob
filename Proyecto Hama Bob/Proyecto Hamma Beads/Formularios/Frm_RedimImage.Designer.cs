@@ -31,6 +31,8 @@
             this.pbImagen = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cmbTipoMedida = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
@@ -57,10 +59,10 @@
             // pbImagen
             // 
             this.pbImagen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbImagen.Location = new System.Drawing.Point(201, 10);
-            this.pbImagen.Margin = new System.Windows.Forms.Padding(5, 10, 10, 10);
+            this.pbImagen.Location = new System.Drawing.Point(206, 10);
+            this.pbImagen.Margin = new System.Windows.Forms.Padding(10);
             this.pbImagen.Name = "pbImagen";
-            this.pbImagen.Size = new System.Drawing.Size(181, 226);
+            this.pbImagen.Size = new System.Drawing.Size(176, 255);
             this.pbImagen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbImagen.TabIndex = 0;
             this.pbImagen.TabStop = false;
@@ -77,11 +79,13 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(392, 246);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(392, 275);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cmbTipoMedida);
+            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.tableLayoutPanel2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.label3);
@@ -92,8 +96,28 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(190, 240);
+            this.panel1.Size = new System.Drawing.Size(190, 269);
             this.panel1.TabIndex = 1;
+            // 
+            // cmbTipoMedida
+            // 
+            this.cmbTipoMedida.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTipoMedida.FormattingEnabled = true;
+            this.cmbTipoMedida.Location = new System.Drawing.Point(67, 199);
+            this.cmbTipoMedida.Name = "cmbTipoMedida";
+            this.cmbTipoMedida.Size = new System.Drawing.Size(111, 21);
+            this.cmbTipoMedida.TabIndex = 8;
+            this.cmbTipoMedida.SelectedIndexChanged += new System.EventHandler(this.cmbTipoMedida_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(9, 196);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(52, 26);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Unidad\r\nMedida:";
             // 
             // tableLayoutPanel2
             // 
@@ -102,7 +126,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.btnCancelar, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnAceptar, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 199);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 226);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -277,7 +301,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 246);
+            this.ClientSize = new System.Drawing.Size(392, 275);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -318,5 +342,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button btnAceptar;
+        private System.Windows.Forms.ComboBox cmbTipoMedida;
+        private System.Windows.Forms.Label label6;
     }
 }

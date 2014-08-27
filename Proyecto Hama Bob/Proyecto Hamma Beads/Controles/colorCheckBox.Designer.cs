@@ -49,7 +49,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(158, 24);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(160, 26);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // chkColor
@@ -67,7 +67,7 @@
             this.pnlRecuadroColor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlRecuadroColor.Location = new System.Drawing.Point(3, 3);
             this.pnlRecuadroColor.Name = "pnlRecuadroColor";
-            this.pnlRecuadroColor.Size = new System.Drawing.Size(14, 18);
+            this.pnlRecuadroColor.Size = new System.Drawing.Size(14, 20);
             this.pnlRecuadroColor.TabIndex = 1;
             this.pnlRecuadroColor.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlRecuadroColor_Paint);
             // 
@@ -84,10 +84,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "colorCheckBox";
-            this.Size = new System.Drawing.Size(158, 24);
+            this.Size = new System.Drawing.Size(160, 26);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

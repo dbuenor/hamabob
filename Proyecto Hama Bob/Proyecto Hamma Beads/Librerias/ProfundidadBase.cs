@@ -43,7 +43,7 @@ namespace Proyecto_Hamma_Beads.Librerias
         #region Eventos
 
         public delegate void StepDoneHandler();
-        public event StepDoneHandler StepDone;
+        public event StepDoneHandler StepDoneEvent;
 
         #endregion
 
@@ -67,50 +67,463 @@ namespace Proyecto_Hamma_Beads.Librerias
         #region Funciones Abstractas
 
         public abstract void ProcesarImagenBits(List<ColorHama> coloresSeleccionados, int x, int y);
-        public abstract void PintarImagen(int pixelInicio, System.Drawing.Color colorFondo, int pixelesFila, List<ColorHama> coloresSeleccionados);
-        public abstract void PintarNumero(int numero, int posActual, int pixelesFila);
+        public abstract void ProcesarImagenBitsSOLOColor(List<ColorHama> coloresSeleccionados, int x, int y);
+        //public abstract void ProcesarImagenBitsSOLONumero(int x, int y);                
+        
         public abstract void PintarDigito(int numero, int posActual, int pixelesFila, eDigito digito);
         public abstract void PintarRecuadroHama(int posActual, int pixelesFila, int pixelInicio, System.Drawing.Color color);
         public abstract void PintarFilaEnteraColor(int posicion, System.Drawing.Color color);
         public abstract void PintarFilaEnteraConBorde(int posicion, System.Drawing.Color color, System.Drawing.Color colorBorde);
         public abstract void PintarPixel(int posicion, System.Drawing.Color color);
 
+        
+
         #endregion
 
         #region Resto Funciones
 
-        public virtual void ProcesarImagen(List<ColorHama> coloresSeleccionados)
+        //public virtual void PintarImagenSOLONumero(int pixelInicio, Color colorFondo, int pixelesFila)
+        //{
+        //    int posActual = pixelInicio;
+            
+        //    ColorHama col = new ColorHama(colorFondo);
+
+        //    PintarRecuadroHama(posActual, pixelesFila, pixelInicio, colorFondo);
+
+        //    PintarNumero(0, posActual, pixelesFila);
+        //}
+
+        public virtual void PintarImagenSOLOColor(int pixelInicio, Color colorFondo, List<ColorHama> coloresSeleccionados)
         {
+            int posActual = pixelInicio;
+
+            ColorHama colorParecido;
+
+            colorParecido = Common.EncontrarColorParecido(colorFondo, coloresSeleccionados);
+
+            PintarPixel(pixelInicio, colorParecido.Colorciko);
+        }    
+
+        public virtual void PintarImagen(int pixelInicio, Color colorFondo, int pixelesFila, List<ColorHama> coloresSeleccionados)
+        {
+            int posActual = pixelInicio;
+
+            ColorHama colorParecido;
+
+            colorParecido = Common.EncontrarColorParecido(colorFondo, coloresSeleccionados);
+
+            PintarRecuadroHama(posActual, pixelesFila, pixelInicio, colorParecido.Colorciko);
+
+            PintarNumero(colorParecido.Numero, posActual, pixelesFila);
+        }  
+
+        public virtual void PintarNumero(int numero, int posActual, int pixelesFila)
+        {
+            switch (numero)
+            {
+                case 1:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    break;
+
+                case 2:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    break;
+
+                case 3:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    break;
+
+                case 4:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    break;
+
+                case 5:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    break;
+
+                case 6:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    break;
+
+                case 7:
+                    PintarDigito(7, posActual, pixelesFila, eDigito.Izquierda);
+                    break;
+
+                case 8:
+                    PintarDigito(8, posActual, pixelesFila, eDigito.Izquierda);
+                    break;
+
+                case 9:
+                    PintarDigito(9, posActual, pixelesFila, eDigito.Izquierda);
+                    break;
+
+                case 10:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 11:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 12:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 13:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 14:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 15:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 16:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 17:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 18:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 19:
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 20:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 21:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 22:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 23:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 24:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 25:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 26:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 27:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 28:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 29:
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 30:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 31:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 32:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 33:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 34:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 35:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 36:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 37:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 38:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 39:
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 40:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 41:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 42:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 43:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 44:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 45:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 46:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 47:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 48:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 49:
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+                case 50:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 51:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 52:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 53:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 54:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 55:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 56:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 57:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 58:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 59:
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 60:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 61:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 62:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 63:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 64:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 65:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 66:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 67:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 68:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+
+                case 69:
+                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
+                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Funcion que nos procesa una imagen para encontrar qué colores parecidos de los seleccionados, se parecen a los de la imagen original.
+        /// Es opcional si queremos que se pinten los numeros o no
+        /// </summary>
+        /// <param name="coloresSeleccionados">Colores Seleccionados a comparar con los originales</param>
+        /// <param name="pintarNumHama">Parametro booleano que indica si queremos pintar o no los numeros correspondientes al color Parecido</param>
+        public virtual void ProcesarImagen(List<ColorHama> coloresSeleccionados, bool pintarNumHama)
+        {            
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
 
-            for (int y = 0; y < bmpOriginal.Height; y++)
+            if (pintarNumHama)
             {
-                System.Threading.Tasks.Parallel.For(0, bmpOriginal.Width, iteracion =>
+                for (int y = 0; y < bmpOriginal.Height; y++)
+                {
+                    System.Threading.Tasks.Parallel.For(0, bmpOriginal.Width, iteracion =>
                     {
-                        ProcesarImagenBits(coloresSeleccionados, iteracion * step, y);
-                        
-                        //if (StepDone != null)
-                            //StepDone();
+                        ProcesarImagenBits(coloresSeleccionados, iteracion * step, y);                            
                     });
-            }
-            
-            //for (int y = 0; y < bmpOriginal.Height; y++)
-            //{
-            //    for (int x = 0; x < (bmpOriginal.Width * step); x += step)
-            //    {
-            //        ProcesarImagenBits(coloresSeleccionados, x, y);                    
-            //    }
 
-            //    if (StepDone != null)
-            //        StepDone();                
-            //}
+                    if (StepDoneEvent != null)
+                        StepDoneEvent();
+                }
+            }
+            else
+            {                
+                for (int y = 0; y < bmpOriginal.Height; y++)
+                {
+                    System.Threading.Tasks.Parallel.For(0, bmpOriginal.Width, iteracion =>
+                    {
+                        ProcesarImagenBitsSOLOColor(coloresSeleccionados, iteracion * step, y);                        
+                    });
+
+                    if (StepDoneEvent != null)
+                        StepDoneEvent();
+                }
+            }
 
             sw.Stop();
 
             Console.WriteLine("TIEMPO USADO ==> " + sw.ElapsedMilliseconds.ToString());
         }
+
+        ///// <summary>
+        ///// Funcion que nos procesa una imagen, y nos pinta los numeros de cada color Hama.
+        ///// </summary>
+        ///// <param name="pintarNumHama">Parametro booleano que indica si queremos pintar o no los numeros correspondientes al color Parecido</param>
+        //public virtual void ProcesarImagen()
+        //{
+        //    Stopwatch sw = new Stopwatch();
+
+        //    sw.Start();
+
+        //    for (int y = 0; y < bmpOriginal.Height; y++)
+        //    {
+        //        System.Threading.Tasks.Parallel.For(0, bmpOriginal.Width, iteracion =>
+        //        {
+        //            ProcesarImagenBitsSOLONumero(iteracion * step, y);
+        //        });
+        //    }
+           
+        //    sw.Stop();
+
+        //    Console.WriteLine("TIEMPO USADO ==> " + sw.ElapsedMilliseconds.ToString());
+        //}
 
         protected ColorHama EncontrarColorParecido(Color colorOriginal, List<ColorHama> coloresSeleccionados)
         {

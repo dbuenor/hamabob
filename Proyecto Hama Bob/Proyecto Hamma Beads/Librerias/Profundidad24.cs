@@ -34,7 +34,41 @@ namespace Proyecto_Hamma_Beads.Librerias
                 , bmpDataGen.Stride, coloresSeleccionados);              
         }
 
-        public override void PintarImagen(int pixelInicio, Color colorFondo, int pixelesFila, List<ColorHama> coloresSeleccionados)
+        /// <summary>
+        /// Proceso la imagen para generar una procesada en funcion de los colores seleccionados. NO pinta los números, solo pinta el color más aproximado.
+        /// </summary>
+        /// <param name="coloresSeleccionados"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public override void ProcesarImagenBitsSOLOColor(List<ColorHama> coloresSeleccionados, int x, int y)
+        {
+            PintarImagenSOLOColor((x * AnchoHamaGen) + (bmpDataGen.Stride * AltoHamaGen * y)
+                , Color.FromArgb(
+                    Pixeles[x + (bmpData.Stride * y) + 2],
+                    Pixeles[x + (bmpData.Stride * y) + 1],
+                    Pixeles[x + (bmpData.Stride * y)]
+                    )
+                , coloresSeleccionados);
+        }
+
+        ///// <summary>
+        ///// Proceso la imagen para generar una procesada en funcion de los colores seleccionados. NO pinta los números, solo pinta el color más aproximado.
+        ///// </summary>
+        ///// <param name="coloresSeleccionados"></param>
+        ///// <param name="x"></param>
+        ///// <param name="y"></param>
+        //public override void ProcesarImagenBitsSOLONumero(int x, int y)
+        //{
+        //    PintarImagenSOLONumero((x * AnchoHamaGen) + (bmpDataGen.Stride * AltoHamaGen * y)
+        //        , Color.FromArgb(
+        //            Pixeles[x + (bmpData.Stride * y) + 2],
+        //            Pixeles[x + (bmpData.Stride * y) + 1],
+        //            Pixeles[x + (bmpData.Stride * y)]
+        //            )                
+        //        , bmpDataGen.Stride);
+        //}   
+
+        public override void PintarImagenSOLOColor(int pixelInicio, Color colorFondo, List<ColorHama> coloresSeleccionados)
         {
             int posActual = pixelInicio;
 
@@ -42,350 +76,7 @@ namespace Proyecto_Hamma_Beads.Librerias
 
             colorParecido = Common.EncontrarColorParecido(colorFondo, coloresSeleccionados);
 
-            PintarRecuadroHama(posActual, pixelesFila, pixelInicio, colorParecido.Colorciko);
-
-            PintarNumero(colorParecido.Numero, posActual, pixelesFila);
-        }
-
-        public override void PintarNumero(int numero, int posActual, int pixelesFila)
-        {
-            switch (numero)
-            {
-                case 1:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    break;
-
-                case 2:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    break;
-
-                case 3:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    break;
-
-                case 4:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    break;
-
-                case 5:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    break;
-
-                case 6:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    break;
-
-                case 7:
-                    PintarDigito(7, posActual, pixelesFila, eDigito.Izquierda);
-                    break;
-
-                case 8:
-                    PintarDigito(8, posActual, pixelesFila, eDigito.Izquierda);
-                    break;
-
-                case 9:
-                    PintarDigito(9, posActual, pixelesFila, eDigito.Izquierda);
-                    break;
-
-                case 10:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 11:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 12:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 13:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 14:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 15:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 16:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 17:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 18:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 19:
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 20:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 21:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 22:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 23:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 24:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 25:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 26:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 27:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 28:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 29:
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 30:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 31:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 32:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 33:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 34:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 35:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 36:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 37:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 38:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 39:
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 40:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 41:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 42:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 43:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 44:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 45:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 46:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 47:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 48:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 49:
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-                case 50:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 51:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 52:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 53:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 54:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 55:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 56:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 57:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 58:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 59:
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 60:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(0, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 61:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(1, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 62:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(2, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 63:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(3, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 64:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(4, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 65:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(5, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 66:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 67:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(7, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 68:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(8, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-
-                case 69:
-                    PintarDigito(6, posActual, pixelesFila, eDigito.Izquierda);
-                    PintarDigito(9, posActual, pixelesFila, eDigito.Derecha);
-                    break;
-            }
+            PintarPixel(pixelInicio, colorParecido.Colorciko);
         }
 
         public override void PintarDigito(int numero, int posActual, int pixelesFila, eDigito digito)

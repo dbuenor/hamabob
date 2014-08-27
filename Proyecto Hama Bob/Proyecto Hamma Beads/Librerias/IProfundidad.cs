@@ -9,7 +9,7 @@ namespace Proyecto_Hamma_Beads.Librerias
 {
     interface IProfundidad
     {        
-        void ProcesarImagen(List<ColorHama> coloresSeleccionados);
+        void ProcesarImagen(List<ColorHama> coloresSeleccionados, bool pintarNumHama);
         void ProcesarImagenBits(List<ColorHama> coloresSeleccionados, int x, int y);
         void PintarImagen(int pixelInicio, Color colorFondo, int pixelesFila, List<ColorHama> coloresSeleccionados);
         void PintarNumero(int numero, int posActual, int pixelesFila);

@@ -17,39 +17,41 @@ namespace Proyecto_Hamma_Beads.Formularios
 {
     public partial class MDIPrincipal : Form
     {
-        #region Constantes
-        List<ColorHama> listaColores = new List<ColorHama>();
-        //const int MargenSuperior = 18;
+        #region Constantes        
         const int EspaciadoEntreColores_Alto = 20;
         const int EspaciadoEntreTipo_Alto = 50;
         const int EspaciadoEntreColumnas_Ancho = 120;
-        const int AnchoHamaGen = 10;
-        const int AltoHamaGen = 10;
-        const int AnchoPlaca = 57;
-        const int AltoPlaca = 57;
-        #endregion
-
-        bool aux = false;
+        #endregion        
 
         #region Variables Aplicacion
-        Size TamanioCuadradoGenerado = new Size(AnchoHamaGen, AltoHamaGen);
+        List<ColorHama> listaColores = new List<ColorHama>();
+        Size TamanioCuadradoGenerado = new Size(Constantes.AnchoHamaGen, Constantes.AltoHamaGen);
         bool bolNuevoTipo = false;
 
         string rutaConfig = Application.UserAppDataPath + "\\MisHamas.xml";
         string rutaGuardado, rutaGuardadoTroceada, rutaOriginal;
 
-        IntPtr punteroImagen = IntPtr.Zero, punteroImagenGen = IntPtr.Zero;
-        BitmapData bmpData = null, bmpDataGen = null;
+        IntPtr punteroImagen = IntPtr.Zero, punteroImagenGen = IntPtr.Zero, punteroImagenTroceada = IntPtr.Zero;
+        BitmapData bmpData = null, bmpDataGen = null, bmpDataTroceada = null;
         Bitmap bmpOriginal, bmpGenerado, bmpTroceada, bmpComposicion;
         String nombreOriginal, extensionOriginal, nombreGuardado, extensionGuardado;
 
-        int step, stepGen;
+        int step, stepGen, stepTroceada;
         public byte[] Pixeles { get; set; }
         public byte[] PixelesGen { get; set; }
-        public int profundidad, profundidadGen;
+        public byte[] PixelesTroceada { get; set; }
+        public int profundidad, profundidadGen, profundidadTroceada;
 
         public Color colorBorde;
         public Color colorNumero;
+
+        public Common.Medida Ancho, Alto;
+
+        #endregion
+
+        #region Otros
+
+        CheckBox chkGenerarReporte;
 
         #endregion
 
@@ -169,6 +171,9 @@ namespace Proyecto_Hamma_Beads.Formularios
         {
             InitializeComponent();
 
+            ///Añado un checkbox a la barra de titulo para poder generar el informe por defecto o no.
+            Aniadir_CheckBox_ToolTip();
+
             rdbBordeNegro.Checked = true;
 
             Inicializar_Colores();
@@ -176,6 +181,24 @@ namespace Proyecto_Hamma_Beads.Formularios
             Inicializar_Controles_Colores();
 
             Cargar_Configuracion();
+
+            Cargar_Combo_Medidas();
+        }
+
+        private void Cargar_Combo_Medidas()
+        {
+            cmbTipoMedida.ComboBox.DataSource = Enum.GetNames(typeof(eTipoMedida));
+            cmbTipoMedida.SelectedIndex = 0;
+        }
+
+        private void Aniadir_CheckBox_ToolTip()
+        {
+            chkGenerarReporte = new CheckBox();
+            chkGenerarReporte.BackColor = Color.Transparent;
+            chkGenerarReporte.Checked = true;
+            chkGenerarReporte.Text = "Generar Reporte";
+            ToolStripControlHost host = new ToolStripControlHost(chkGenerarReporte);
+            toolStrip.Items.Add(host);
         }
 
         #region Botones
@@ -247,10 +270,12 @@ namespace Proyecto_Hamma_Beads.Formularios
             foreach (ColorHama.eTipoHama _tipo in Enum.GetValues(typeof(ColorHama.eTipoHama)))
             {
                 tbColores.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                
                 GroupBox grTipo = new GroupBox() { Text = _tipo.ToString(), Name = "gb" + _tipo.ToString()};
                 grTipo.Dock = DockStyle.Fill;
                 grTipo.AutoSize = true;
                 tbColores.Controls.Add(grTipo, 0, tbColores.RowStyles.Count - 1);
+                
                 TableLayoutPanel tbTipo = new TableLayoutPanel();
                 tbTipo.Dock = DockStyle.Fill;
                 tbTipo.AutoSize = true;
@@ -2450,16 +2475,18 @@ namespace Proyecto_Hamma_Beads.Formularios
         }
 
         private IEnumerable<colorCheckBox> Obtener_ColorCheckBox()
-        {            
+        {        
+            List<colorCheckBox> oRetorno = new List<colorCheckBox>();
+
             foreach (GroupBox gb in tbColores.Controls.OfType<GroupBox>())
             {
                 ///Doy por hecho que dentro de los groupbox va a haber un tablelayoutpanel con los controles dentro
                 ///MAS INFO ==> Inicializar_Controles_Colores()
                 TableLayoutPanel tb = gb.Controls[0] as TableLayoutPanel;
-                return tb.Controls.OfType<colorCheckBox>();
+                oRetorno.AddRange(tb.Controls.OfType<colorCheckBox>());
             }
 
-            return null;
+            return oRetorno;
         }
 
         private void Chequear_Colores(bool Valor)
@@ -2513,7 +2540,7 @@ namespace Proyecto_Hamma_Beads.Formularios
                 nombreOriginal = openFileDialog.SafeFileNames[0];
                 extensionOriginal = nombreOriginal.Substring(nombreOriginal.IndexOf(".") + 1);
 
-                int Ancho, Alto;
+                //Common.Medida Ancho, Alto;
 
                 using (Frm_RedimImage frm = new Frm_RedimImage())
                 {
@@ -2524,7 +2551,7 @@ namespace Proyecto_Hamma_Beads.Formularios
                     Alto = frm.Alto;
                 }
 
-                Cargar_Imagen(openFileDialog.FileNames[0], Ancho, Alto);
+                Cargar_Imagen(openFileDialog.FileNames[0], Ancho.Px, Alto.Px);
 
                 Habilitar_Botones_Tras_Abrir_Imagen();
 
@@ -2549,20 +2576,19 @@ namespace Proyecto_Hamma_Beads.Formularios
         private void Procesar_Imagen()
         {
             try
-            {
-                Pixeles = LockBits(ref bmpOriginal, ref profundidad, ref step, ref punteroImagen, ref bmpData);
-
+            {                
                 try
                 {
-                    bmpGenerado = new Bitmap(bmpOriginal.Width * AnchoHamaGen, bmpOriginal.Height * AltoHamaGen, bmpOriginal.PixelFormat);
+                    bmpGenerado = new Bitmap(bmpOriginal.Width, bmpOriginal.Height, bmpOriginal.PixelFormat);
                 }
                 catch (System.Exception ex)
                 {
                     throw new cExcepcionControlada("Error al crear la imagen generada. Se ha excedido el tamaño maximo. (Tamaño Actual: "
-                        + (bmpOriginal.Width * AnchoHamaGen).ToString() + "x"
-                        + (bmpOriginal.Height * AltoHamaGen).ToString() + ").", ex);
+                        + (bmpOriginal.Width * Constantes.AnchoHamaGen).ToString() + "x"
+                        + (bmpOriginal.Height * Constantes.AltoHamaGen).ToString() + ").", ex);
                 }
 
+                Pixeles = LockBits(ref bmpOriginal, ref profundidad, ref step, ref punteroImagen, ref bmpData);
                 PixelesGen = LockBits(ref bmpGenerado, ref profundidadGen, ref stepGen, ref punteroImagenGen, ref bmpDataGen);
 
                 Ocultar_Mensaje_Estado();
@@ -2579,16 +2605,21 @@ namespace Proyecto_Hamma_Beads.Formularios
                 switch (bmpOriginal.PixelFormat)
                 {
                     case PixelFormat.Format24bppRgb:
-                        procesador = new Profundidad24(bmpOriginal, Pixeles, PixelesGen, bmpData, bmpDataGen, step, stepGen);                        
+                        procesador = new Profundidad24(bmpOriginal, Pixeles, PixelesGen, bmpData, bmpDataGen, step, stepGen);
                         break;
                     case PixelFormat.Format32bppArgb:
                         procesador = new Profundidad32(bmpOriginal, Pixeles, PixelesGen, bmpData, bmpDataGen, step, stepGen);
                         break;
                 }
 
-                procesador.barraProgreso = this.barraProgreso;
-                procesador.StepDone += new ProfundidadBase.StepDoneHandler(procesador_StepDone);
-                procesador.ProcesarImagen(coloresSeleccionados);
+                procesador.barraProgreso = this.barraProgreso;                
+                procesador.StepDoneEvent += new ProfundidadBase.StepDoneHandler(procesador_StepDone);
+
+                this.Cursor = Cursors.WaitCursor;
+
+                procesador.ProcesarImagen(coloresSeleccionados, false);
+
+                this.Cursor = Cursors.Default;
 
                 //if (BitConverter.IsLittleEndian)
                 //{
@@ -2620,6 +2651,81 @@ namespace Proyecto_Hamma_Beads.Formularios
                     UnlockBits(Pixeles, ref punteroImagen, ref bmpOriginal, ref bmpData);
             }
         }
+
+        //private void Procesar_Imagen()
+        //{
+        //    try
+        //    {
+        //        Pixeles = LockBits(ref bmpOriginal, ref profundidad, ref step, ref punteroImagen, ref bmpData);
+
+        //        try
+        //        {
+        //            bmpGenerado = new Bitmap(bmpOriginal.Width * AnchoHamaGen, bmpOriginal.Height * AltoHamaGen, bmpOriginal.PixelFormat);
+        //        }
+        //        catch (System.Exception ex)
+        //        {
+        //            throw new cExcepcionControlada("Error al crear la imagen generada. Se ha excedido el tamaño maximo. (Tamaño Actual: "
+        //                + (bmpOriginal.Width * AnchoHamaGen).ToString() + "x"
+        //                + (bmpOriginal.Height * AltoHamaGen).ToString() + ").", ex);
+        //        }
+
+        //        PixelesGen = LockBits(ref bmpGenerado, ref profundidadGen, ref stepGen, ref punteroImagenGen, ref bmpDataGen);
+
+        //        Ocultar_Mensaje_Estado();
+
+        //        barraProgreso.Step = 1;
+        //        barraProgreso.Value = 0;
+        //        barraProgreso.Maximum = bmpOriginal.Height;
+
+        //        ResetearContadoresHama();
+
+        //        List<ColorHama> coloresSeleccionados = listaColores.Where(x => x.Habilitado).ToList();
+        //        ProfundidadBase procesador = null;
+
+        //        switch (bmpOriginal.PixelFormat)
+        //        {
+        //            case PixelFormat.Format24bppRgb:
+        //                procesador = new Profundidad24(bmpOriginal, Pixeles, PixelesGen, bmpData, bmpDataGen, step, stepGen);                        
+        //                break;
+        //            case PixelFormat.Format32bppArgb:
+        //                procesador = new Profundidad32(bmpOriginal, Pixeles, PixelesGen, bmpData, bmpDataGen, step, stepGen);
+        //                break;
+        //        }
+
+        //        procesador.barraProgreso = this.barraProgreso;
+        //        procesador.StepDone += new ProfundidadBase.StepDoneHandler(procesador_StepDone);
+        //        procesador.ProcesarImagen(coloresSeleccionados);
+
+        //        //if (BitConverter.IsLittleEndian)
+        //        //{
+        //        //    //Array.Reverse(Pixeles);
+        //        //    //Array.Reverse(PixelesGen);
+        //        //}
+
+        //        UnlockBits(Pixeles, ref punteroImagen, ref bmpOriginal, ref bmpData);
+        //        UnlockBits(PixelesGen, ref punteroImagenGen, ref bmpGenerado, ref bmpDataGen);
+
+        //        pbZoomGenerada.SizeMode = PictureBoxSizeMode.Zoom;
+        //        pbZoomGenerada.Imagen = bmpGenerado;
+
+        //        ActualizarEtiquetasConNumeroDePiezasHama();
+        //        ActualizarEstadisticas();
+
+        //        Habilitar_Botones_Tras_Generar_Imagen();
+
+        //        Mostrar_Mensaje_Estado("Imagen Generada Correctamente.");
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message + System.Environment.NewLine + "Mas Info: "
+        //            + System.Environment.NewLine + System.Environment.NewLine
+        //            + (ex.InnerException != null ? ex.InnerException.Message : ""),
+        //            "ERROR GENERANDO IMAGEN", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        //        if (ex is cExcepcionControlada)
+        //            UnlockBits(Pixeles, ref punteroImagen, ref bmpOriginal, ref bmpData);
+        //    }
+        //}
 
         #region Barra Estado
         private void Mostrar_Mensaje_Estado(string Mensaje, bool AddHora = true)
@@ -2678,8 +2784,19 @@ namespace Proyecto_Hamma_Beads.Formularios
 
         void procesador_StepDone()
         {
-            this.Invoke((Action)delegate { barraProgreso.PerformStep(); });
-            //barraProgreso.PerformStep();
+            if (barraProgreso.InvokeRequired)
+            {
+
+                barraProgreso.BeginInvoke((ProfundidadBase.StepDoneHandler)delegate
+                {
+                    barraProgreso.PerformStep();
+                });
+            }
+            else
+            {
+                barraProgreso.PerformStep();
+            }
+            
         }
 
         #endregion
@@ -2906,35 +3023,36 @@ namespace Proyecto_Hamma_Beads.Formularios
 
         private void tsbtnTrocearImagen_Click(object sender, EventArgs e)
         {
-            Trocear_Imagen();
+            Trocear_Imagen_Entera();
         }
 
         private void trocearImagenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Trocear_Imagen();
+            Trocear_Imagen_Entera();
         }
 
-        private void Trocear_Imagen()
+        private void Trocear_Imagen_Entera()
         {
-            bmpTroceada = new Bitmap(AnchoPlaca * AnchoHamaGen, AltoPlaca * AltoHamaGen, bmpGenerado.PixelFormat);
             bmpComposicion = new Bitmap(bmpGenerado);
-
             Graphics grComposicion = Graphics.FromImage(bmpComposicion);
-            Graphics grTroceada = Graphics.FromImage(bmpTroceada);
+            
+            ///Le pongo esto para que el texto se vea bien, y no borroso.
+            grComposicion.SmoothingMode = SmoothingMode.HighQuality;
+            
             GraphicsPath path = new GraphicsPath();
 
-            Rectangle rectDestino = new Rectangle(0, 0, bmpTroceada.Width, bmpTroceada.Height);
             int Indice_FILA = 0;
             int Indice_COLUMNA = 0;
             string Texto;
+            string nombreFich = nombreOriginal.Substring(0, nombreOriginal.LastIndexOf("."));
 
-            float TamanioFuente = 12 * AnchoHamaGen;
+            float TamanioFuente = 12;
             Font fuente = new Font(FontFamily.GenericSansSerif, TamanioFuente);
 
             if (string.IsNullOrEmpty(rutaGuardado))
                 GuardarImagen();
 
-            rutaGuardadoTroceada = rutaGuardado.Substring(0, rutaGuardado.LastIndexOf("\\")) + "\\Troceada\\";
+            rutaGuardadoTroceada = rutaGuardado.Substring(0, rutaGuardado.LastIndexOf("\\")) + "\\Troceada\\" + nombreFich + "\\";
 
             if (!System.IO.Directory.Exists(rutaGuardadoTroceada))
                 System.IO.Directory.CreateDirectory(rutaGuardadoTroceada);
@@ -2942,23 +3060,21 @@ namespace Proyecto_Hamma_Beads.Formularios
             ///Inicializo la barra de progreso
             barraProgreso.Step = 1;
             barraProgreso.Value = 0;
-            barraProgreso.Maximum = (int)Math.Round((double)bmpGenerado.Height / bmpTroceada.Height);
+            barraProgreso.Maximum = (int)Math.Round((double)bmpGenerado.Height / Constantes.AltoPlacaPx);
 
-            //Le añado el ancho de placa, para que no se salga del bucle sin haber troceado toda la imagen, ya que si el ancho de la imagen no es divisible entre el ancho de la placa,
-            // la ultima parte de la imagen (la mas a la derecha) no entraría en el bucle
-            for (int y = 0; y < (bmpGenerado.Height); y += bmpTroceada.Height)
+            for (int y = 0; y <= bmpOriginal.Height; y += Constantes.AltoPlacaPx)
             {
-                for (int x = 0; x < (bmpGenerado.Width); x += bmpTroceada.Width)
+                for (int x = 0; x <= bmpOriginal.Width; x += Constantes.AnchoPlacaPx)
                 {
                     Texto = Indice_FILA.ToString("D2") + "_" + Indice_COLUMNA.ToString("D2");
 
-                    grTroceada.DrawImage(bmpGenerado, rectDestino, new Rectangle(x, y, bmpTroceada.Width, bmpTroceada.Height), GraphicsUnit.Pixel);
+                    Trocear_Imagen_Placa(x, y, Texto);
 
-                    bmpTroceada.Save(rutaGuardadoTroceada + Texto + "." + extensionGuardado);
-                    grTroceada.Clear(Color.White);
-
+                    ///Aqui pinto en una copia de la imagen generada la situacion de las distintas imagenes de cada placa
                     path.AddString(Texto, fuente.FontFamily
-                        , (int)FontStyle.Bold, TamanioFuente, new Point((x + bmpTroceada.Width / 4), (y + bmpTroceada.Height / 4)), new StringFormat(StringFormat.GenericTypographic));
+                        , (int)FontStyle.Bold, TamanioFuente, new Point((x + Constantes.AnchoPlacaPx / 4), (y + Constantes.AltoPlacaPx / 4)),
+                        new StringFormat(StringFormat.GenericTypographic));
+                    
                     grComposicion.DrawPath(Pens.Black, path);
                     grComposicion.FillPath(Brushes.White, path);
 
@@ -2973,17 +3089,89 @@ namespace Proyecto_Hamma_Beads.Formularios
                 barraProgreso.PerformStep();
             }
 
-            bmpComposicion.Save(rutaGuardadoTroceada + nombreOriginal + "_composicion." + extensionGuardado);
+            bmpComposicion.Save(rutaGuardadoTroceada + nombreFich + "_composicion." + extensionGuardado);
+            
+            if (chkGenerarReporte.Checked)
+                Generar_Reporte_Fichas(rutaGuardadoTroceada + nombreFich + ".txt");
 
             Mostrar_Mensaje_Estado("Imagen troceada correctamente en: ", rutaGuardadoTroceada, rutaGuardadoTroceada);
-
-            bmpTroceada.Dispose();
-            bmpTroceada = null;
+            
             bmpComposicion.Dispose();
             bmpComposicion = null;
         }
 
-        
+        private void Trocear_Imagen_Placa(int x, int y, string Texto)
+        {
+            Bitmap bmpAux = new Bitmap(Constantes.AnchoPlacaPx, Constantes.AltoPlacaPx, bmpGenerado.PixelFormat);
+            Byte[] PixelesAux = null;
+            int profundidadAux=0, stepAux=0;
+            IntPtr punteroImagenAux = IntPtr.Zero;
+            BitmapData bmpDataAux = null;
+
+            try
+            {                
+                try
+                {
+                    Graphics.FromImage(bmpAux).DrawImage(bmpGenerado, new Rectangle(0, 0, Constantes.AnchoPlacaPx, Constantes.AltoPlacaPx),
+                        new Rectangle(x, y, Constantes.AnchoPlacaPx, Constantes.AltoPlacaPx), GraphicsUnit.Pixel);
+                    bmpTroceada = new Bitmap(bmpAux.Width * Constantes.AnchoHamaGen, bmpAux.Height * Constantes.AltoHamaGen, bmpAux.PixelFormat);
+                }
+                catch (System.Exception ex)
+                {
+                    throw new cExcepcionControlada("Error al crear la imagen generada. Se ha excedido el tamaño maximo. (Tamaño Actual: "
+                        + (bmpGenerado.Width * Constantes.AnchoHamaGen).ToString() + "x"
+                        + (bmpGenerado.Height * Constantes.AltoHamaGen).ToString() + ").", ex);
+                }
+
+                PixelesAux = LockBits(ref bmpAux, ref profundidadAux, ref stepAux, ref punteroImagenAux, ref bmpDataAux);
+                PixelesTroceada = LockBits(ref bmpTroceada, ref profundidadTroceada, ref stepTroceada, ref punteroImagenTroceada, ref bmpDataTroceada);
+
+                Ocultar_Mensaje_Estado();
+                
+                List<ColorHama> coloresSeleccionados = listaColores.Where(i => i.Habilitado).ToList();
+                ProfundidadBase procesador = null;
+
+                switch (bmpAux.PixelFormat)
+                {
+                    case PixelFormat.Format24bppRgb:
+                        procesador = new Profundidad24(bmpAux, PixelesAux, PixelesTroceada, bmpDataAux, bmpDataTroceada, stepAux, stepTroceada);
+                        break;
+                    case PixelFormat.Format32bppArgb:
+                        procesador = new Profundidad32(bmpAux, PixelesAux, PixelesTroceada, bmpDataAux, bmpDataTroceada, stepAux, stepTroceada);
+                        break;
+                }
+
+                this.Cursor = Cursors.WaitCursor;
+
+                procesador.ProcesarImagen(coloresSeleccionados, true);
+
+                this.Cursor = Cursors.Default;
+                
+                UnlockBits(PixelesAux, ref punteroImagenAux, ref bmpAux, ref bmpDataAux);
+                UnlockBits(PixelesTroceada, ref punteroImagenTroceada, ref bmpTroceada, ref bmpDataTroceada);
+
+                bmpTroceada.Save(rutaGuardadoTroceada + Texto + "." + extensionGuardado);               
+
+                bmpTroceada.Dispose();
+                bmpTroceada = null;
+                bmpAux.Dispose();
+                bmpAux = null;
+
+                punteroImagenAux = IntPtr.Zero;
+                PixelesAux = null;
+                bmpDataAux = null;
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message + System.Environment.NewLine + "Mas Info: "
+                    + System.Environment.NewLine + System.Environment.NewLine
+                    + (ex.InnerException != null ? ex.InnerException.Message : ""),
+                    "ERROR GENERANDO IMAGEN", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                if (ex is cExcepcionControlada)
+                    UnlockBits(PixelesAux, ref punteroImagenAux, ref bmpAux, ref bmpDataAux);
+            }            
+        }        
 
         private void btnGuardarConfig_Click(object sender, EventArgs e)
         {
@@ -2996,9 +3184,36 @@ namespace Proyecto_Hamma_Beads.Formularios
             acerca.Show();
         }
 
-        private void pbZoomOriginal_Load(object sender, EventArgs e)
+        private void Generar_Reporte_Fichas(string ruta)
         {
+            if (string.IsNullOrEmpty(ruta))
+            {
+                //OpenFileDialog ofd = new OpenFileDialog();
+                //if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                //ofd.FileName
+            }
 
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(ruta))
+            {
+                file.WriteLine("#####################################################");
+                file.WriteLine("#######               INFORME                 #######");
+                file.WriteLine("#####################################################");
+                file.WriteLine();
+                file.WriteLine();
+
+                foreach (colorCheckBox color in Obtener_ColorCheckBox()
+                    .Where(x => x.NumPiezas != null)
+                    .OrderByDescending(x => x.NumPiezas))
+                {
+                    file.WriteLine("COLOR " + color.NombreColor + " ==> " + color.NumPiezas);
+                }
+            }
+        }
+
+        private void cmbTipoMedida_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.pbZoomOriginal.TipoMedida = (eTipoMedida)cmbTipoMedida.SelectedIndex;
+            this.pbZoomGenerada.TipoMedida = (eTipoMedida)cmbTipoMedida.SelectedIndex;
         }
     }
 }

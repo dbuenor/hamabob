@@ -12,6 +12,24 @@ namespace Proyecto_Hamma_Beads.Librerias
         Derecha
     }
 
+    public class Constantes
+    {
+        #region Constantes
+        public const int AnchoHamaGen = 10;
+        public const int AltoHamaGen = 10;
+        public const int AnchoPlacaPx = 57;
+        public const int AltoPlacaPx = 57;
+        public const int AnchoPlacaCm = 15;
+        public const int AltoPlacaCm = 15;
+        #endregion   
+    }    
+    
+    public enum eTipoMedida
+    {
+        Pixeles,
+        Centimetros
+    }    
+
     public class Common
     {
         public static ColorHama EncontrarColorParecido(Color colorOriginal, List<ColorHama> coloresSeleccionados)
@@ -65,5 +83,88 @@ namespace Proyecto_Hamma_Beads.Librerias
 
             return colorSimilar;
         }
+        
+        #region Medidas
+        
+        private static int Transformar_Medida(int valor, eTipoMedida tipoValor)
+        {
+            switch (tipoValor)
+            {
+                case eTipoMedida.Centimetros:
+                    return ((valor * Constantes.AnchoPlacaPx) / Constantes.AnchoPlacaCm);
+                case eTipoMedida.Pixeles:
+                    return ((valor * Constantes.AnchoPlacaCm) / Constantes.AnchoPlacaPx);
+                default:
+                    return -1;
+            }
+        }
+
+        public static int Transformar_Pixeles_A_CM(int valor)
+        {
+            return Transformar_Medida(valor, eTipoMedida.Pixeles);
+        }
+
+        public static int Transformar_CM_A_Pixeles(int valor)
+        {
+            return Transformar_Medida(valor, eTipoMedida.Centimetros);
+        }
+
+        public class Medida
+        {
+            private int _px, _cm;
+            public delegate void MedidaCambiadaEvent();
+            public event MedidaCambiadaEvent MedidaCambiada;
+
+            public int Px
+            {
+                get
+                {
+                    return _px;
+                }
+                set
+                {
+                    if (value != _px)
+                    {
+                        _px = value;
+                        _cm = Transformar_Pixeles_A_CM(value);
+                        if (MedidaCambiada != null)
+                            MedidaCambiada();
+                    }
+                }
+            }
+            public int Cm
+            {
+                get
+                {
+                    return _cm;
+                }
+                set
+                {
+                    if (value != _cm)
+                    {
+                        _cm = value;
+                        _px = Transformar_CM_A_Pixeles(value);
+                    }
+                }
+            }
+
+            public void Establecer_Valor(eTipoMedida tipo, string texto)
+            {
+                if (tipo == eTipoMedida.Centimetros)
+                    Cm = Convert.ToInt16(texto);
+                else
+                    Px = Convert.ToInt16(texto);
+            }
+
+            public int Devolver_Medida(eTipoMedida tipo)
+            {
+                if (tipo == eTipoMedida.Centimetros)
+                    return this.Cm;
+                else
+                    return this.Px;
+            }
+        }
+
+        #endregion
     }
 }
