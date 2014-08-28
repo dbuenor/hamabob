@@ -81,6 +81,7 @@ namespace Proyecto_Hamma_Beads.Controles
 
                     pbZoom.Visible = false;
                     tbarZoom.Visible = false;
+                    this.Cursor = Cursors.Default;
 
                     tt.SetToolTip(pbImagen, null);
                 }                               
@@ -403,11 +404,12 @@ namespace Proyecto_Hamma_Beads.Controles
         }       
 
         private void pb_MouseClick(object sender, MouseEventArgs e)
-        {
-            PictureBox pic = (PictureBox)sender;
+        {            
+            //PictureBox pic = (PictureBox)sender;
 
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
-                AjustarImagen();                
+            //if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            //    AjustarImagen();                
+            btnMostrarOcultar_Click(sender, null);
         }
        
         private void pic_MouseWheel_AumentarZoom(object sender, MouseEventArgs e)

@@ -132,6 +132,18 @@ namespace Proyecto_Hamma_Beads.Formularios
                 bmpGenerado = null;
             }
 
+            if (bmpComposicion != null)
+            {
+                bmpComposicion.Dispose();
+                bmpComposicion = null;
+            }
+
+            if (bmpTroceada != null)
+            {
+                bmpTroceada.Dispose();
+                bmpTroceada = null;
+            }
+
             pbZoomOriginal.Limpiar_Memoria();
             pbZoomGenerada.Limpiar_Memoria();
 
@@ -265,7 +277,8 @@ namespace Proyecto_Hamma_Beads.Formularios
         /// </summary>
         private void Inicializar_Controles_Colores()
         {
-            tbColores.RowStyles.Clear();            
+            tbColores.RowStyles.Clear();
+            tbColores.MouseWheel += new MouseEventHandler(tbColores_MouseWheel);
 
             foreach (ColorHama.eTipoHama _tipo in Enum.GetValues(typeof(ColorHama.eTipoHama)))
             {
@@ -279,7 +292,7 @@ namespace Proyecto_Hamma_Beads.Formularios
                 TableLayoutPanel tbTipo = new TableLayoutPanel();
                 tbTipo.Dock = DockStyle.Fill;
                 tbTipo.AutoSize = true;
-                grTipo.Controls.Add(tbTipo);                                
+                grTipo.Controls.Add(tbTipo);          
                 
                 List<ColorHama> ColoresTipo = listaColores.Where(x => x.Tipo == _tipo).ToList();                
                 int columna = 0;
@@ -301,7 +314,9 @@ namespace Proyecto_Hamma_Beads.Formularios
                         Color = _color
                     };
 
-                    chkColor.Chk.Checked = _color.Habilitado;
+                    chkColor.Chk.Checked = _color.Habilitado;                    
+                    chkColor.MouseWheel += new MouseEventHandler(chkColor_MouseWheel);
+                    chkColor.MouseHover += new EventHandler(chkColor_MouseHover);
 
                     tbTipo.Controls.Add(chkColor, columna, tbTipo.RowStyles.Count - 1);
 
@@ -313,6 +328,29 @@ namespace Proyecto_Hamma_Beads.Formularios
                 }                                         
             }
         }
+
+        #region Scroll TB COLORES
+        /// <summary>
+        /// Todo esto lo pongo para que al hacer scroll sobre los objetos colorCheckBox, me haga scroll en el control padre que sí que tiene scroll,
+        /// es decir, la tbColores
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void tbColores_MouseWheel(object sender, MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+        }
+
+        void chkColor_MouseHover(object sender, EventArgs e)
+        {
+            (sender as Control).Focus();
+        }       
+
+        void chkColor_MouseWheel(object sender, MouseEventArgs e)
+        {
+            tbColores_MouseWheel(sender, e);
+        }
+        #endregion        
 
         private void Calcular_Siguiente_Posicion(ref int X, ref int Y, int AnchoLienzo, int AltoLienzo, int EspaciadoX, int EspaciadoY, int AltoControl)
         {

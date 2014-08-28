@@ -148,11 +148,23 @@ namespace Proyecto_Hamma_Beads.Controles
             InitializeComponent();
 
             chkColor.CheckedChanged += new EventHandler(chkColor_CheckedChanged);
+
+            ///Esto lo pongo para que salte el evento al control padre que contiene todos los demás controles, sino no salta.
+            ///Es decir, hago un "bubbling" de forma manual.
+            chkColor.MouseHover += new EventHandler(controlHijo_MouseHover);
+            pnlRecuadroColor.MouseHover += new EventHandler(controlHijo_MouseHover);
+            lblNumPiezas.MouseHover += new EventHandler(controlHijo_MouseHover);
+            tableLayoutPanel1.MouseHover += new EventHandler(controlHijo_MouseHover);
             
 
             AltoCuadrado = _altoDefecto;
             AnchoCuadrado = _anchoDefecto;
         }
+
+        void controlHijo_MouseHover(object sender, EventArgs e)
+        {
+            this.OnMouseHover(e);
+        }        
 
         void Color_HabilitadoEvent()
         {

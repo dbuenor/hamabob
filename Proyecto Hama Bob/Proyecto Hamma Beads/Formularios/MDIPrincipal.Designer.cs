@@ -51,7 +51,6 @@
             this.viewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ventanaEstadísticasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -301,8 +300,7 @@
             // 
             this.viewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolBarToolStripMenuItem,
-            this.statusBarToolStripMenuItem,
-            this.ventanaEstadísticasToolStripMenuItem});
+            this.statusBarToolStripMenuItem});
             this.viewMenu.Name = "viewMenu";
             this.viewMenu.Size = new System.Drawing.Size(36, 20);
             this.viewMenu.Text = "&Ver";
@@ -327,13 +325,6 @@
             this.statusBarToolStripMenuItem.Text = "&Barra de estado";
             this.statusBarToolStripMenuItem.Click += new System.EventHandler(this.StatusBarToolStripMenuItem_Click);
             // 
-            // ventanaEstadísticasToolStripMenuItem
-            // 
-            this.ventanaEstadísticasToolStripMenuItem.Enabled = false;
-            this.ventanaEstadísticasToolStripMenuItem.Name = "ventanaEstadísticasToolStripMenuItem";
-            this.ventanaEstadísticasToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.ventanaEstadísticasToolStripMenuItem.Text = "Ventana Estadísticas";
-            // 
             // toolsMenu
             // 
             this.toolsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -346,7 +337,7 @@
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionsToolStripMenuItem.Text = "&Opciones";
             // 
             // windowsMenu
@@ -702,10 +693,12 @@
             // rdbBordeNegro
             // 
             this.rdbBordeNegro.AutoSize = true;
+            this.rdbBordeNegro.Checked = true;
             this.rdbBordeNegro.Location = new System.Drawing.Point(6, 19);
             this.rdbBordeNegro.Name = "rdbBordeNegro";
             this.rdbBordeNegro.Size = new System.Drawing.Size(154, 17);
             this.rdbBordeNegro.TabIndex = 0;
+            this.rdbBordeNegro.TabStop = true;
             this.rdbBordeNegro.Text = "Borde Negro / Num Blanco";
             this.rdbBordeNegro.UseVisualStyleBackColor = true;
             this.rdbBordeNegro.CheckedChanged += new System.EventHandler(this.rdbBorde_CheckedChanged);
@@ -931,6 +924,7 @@
             // pbZoomOriginal
             // 
             this.pbZoomOriginal.AllowDrop = true;
+            this.pbZoomOriginal.Cursor = System.Windows.Forms.Cursors.Default;
             this.pbZoomOriginal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbZoomOriginal.Imagen = null;
             this.pbZoomOriginal.ImagenZoom = null;
@@ -947,6 +941,7 @@
             // pbZoomGenerada
             // 
             this.pbZoomGenerada.AllowDrop = true;
+            this.pbZoomGenerada.Cursor = System.Windows.Forms.Cursors.Default;
             this.pbZoomGenerada.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbZoomGenerada.Imagen = null;
             this.pbZoomGenerada.ImagenZoom = null;
@@ -1062,7 +1057,6 @@
         private System.Windows.Forms.GroupBox gbBorde;
         private System.Windows.Forms.RadioButton rdbBordeBlanco;
         private System.Windows.Forms.RadioButton rdbBordeNegro;
-        private System.Windows.Forms.ToolStripMenuItem ventanaEstadísticasToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel tslblEstado;
         private System.Windows.Forms.Button btnGuardarConfig;
         private System.Windows.Forms.ToolStripStatusLabel tslblEnlace;

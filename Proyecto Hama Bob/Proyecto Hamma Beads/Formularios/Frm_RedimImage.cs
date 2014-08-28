@@ -55,11 +55,11 @@ namespace Proyecto_Hamma_Beads.Formularios
         {
             InitializeComponent();
 
-            this.ActiveControl = btnAceptar;            
-
-            Cargar_Combo_Medidas();
+            this.ActiveControl = btnAceptar;
 
             Inicializar_Medidas();
+
+            Cargar_Combo_Medidas();            
         }              
 
         private void Cargar_Datos_Imagen()
@@ -120,8 +120,18 @@ namespace Proyecto_Hamma_Beads.Formularios
         {
             if (!char.IsControl(e.KeyChar)
                 && !char.IsDigit(e.KeyChar))
+            {                                
+                    e.Handled = true;
+            }
+            else
             {
-                e.Handled = true;
+                ///Si es un intro, lanzo el evento de aceptar.
+                if (e.KeyChar == (char)13)
+                {
+                    btnAceptar.Focus();
+                    btnAceptar_Click(sender, null);
+                }
+                    
             }
         }
 
