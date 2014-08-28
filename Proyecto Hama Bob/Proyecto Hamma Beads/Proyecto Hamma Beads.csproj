@@ -193,8 +193,6 @@
     <Content Include="logo.ico" />
     <None Include="Resources\logo.ico" />
     <None Include="Resources\1388157583_78.png" />
-    <None Include="Resources\1409065362_71542.ico" />
-    <None Include="Resources\lupa2.ico" />
     <Content Include="Resources\MisHamas.xml">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>MisHamas.Designer.cs</LastGenOutput>
