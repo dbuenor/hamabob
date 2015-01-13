@@ -3090,50 +3090,53 @@ namespace Proyecto_Hamma_Beads.Formularios
             if (string.IsNullOrEmpty(rutaGuardado))
                 GuardarImagen();
 
-            rutaGuardadoTroceada = rutaGuardado.Substring(0, rutaGuardado.LastIndexOf("\\")) + "\\Troceada\\" + nombreFich + "\\";
-
-            if (!System.IO.Directory.Exists(rutaGuardadoTroceada))
-                System.IO.Directory.CreateDirectory(rutaGuardadoTroceada);
-
-            ///Inicializo la barra de progreso
-            barraProgreso.Step = 1;
-            barraProgreso.Value = 0;
-            barraProgreso.Maximum = (int)Math.Round((double)bmpGenerado.Height / Constantes.AltoPlacaPx);
-
-            for (int y = 0; y <= bmpOriginal.Height; y += Constantes.AltoPlacaPx)
+            if (!string.IsNullOrEmpty(rutaGuardado))
             {
-                for (int x = 0; x <= bmpOriginal.Width; x += Constantes.AnchoPlacaPx)
+                rutaGuardadoTroceada = rutaGuardado.Substring(0, rutaGuardado.LastIndexOf("\\")) + "\\Troceada\\" + nombreFich + "\\";
+
+                if (!System.IO.Directory.Exists(rutaGuardadoTroceada))
+                    System.IO.Directory.CreateDirectory(rutaGuardadoTroceada);
+
+                ///Inicializo la barra de progreso
+                barraProgreso.Step = 1;
+                barraProgreso.Value = 0;
+                barraProgreso.Maximum = (int)Math.Round((double)bmpGenerado.Height / Constantes.AltoPlacaPx);
+
+                for (int y = 0; y <= bmpOriginal.Height; y += Constantes.AltoPlacaPx)
                 {
-                    Texto = Indice_FILA.ToString("D2") + "_" + Indice_COLUMNA.ToString("D2");
+                    for (int x = 0; x <= bmpOriginal.Width; x += Constantes.AnchoPlacaPx)
+                    {
+                        Texto = Indice_FILA.ToString("D2") + "_" + Indice_COLUMNA.ToString("D2");
 
-                    Trocear_Imagen_Placa(x, y, Texto);
+                        Trocear_Imagen_Placa(x, y, Texto);
 
-                    ///Aqui pinto en una copia de la imagen generada la situacion de las distintas imagenes de cada placa
-                    path.AddString(Texto, fuente.FontFamily
-                        , (int)FontStyle.Bold, TamanioFuente, new Point((x + Constantes.AnchoPlacaPx / 4), (y + Constantes.AltoPlacaPx / 4)),
-                        new StringFormat(StringFormat.GenericTypographic));
-                    
-                    grComposicion.DrawPath(Pens.Black, path);
-                    grComposicion.FillPath(Brushes.White, path);
+                        ///Aqui pinto en una copia de la imagen generada la situacion de las distintas imagenes de cada placa
+                        path.AddString(Texto, fuente.FontFamily
+                            , (int)FontStyle.Bold, TamanioFuente, new Point((x + Constantes.AnchoPlacaPx / 4), (y + Constantes.AltoPlacaPx / 4)),
+                            new StringFormat(StringFormat.GenericTypographic));
 
-                    path.Reset();
+                        grComposicion.DrawPath(Pens.Black, path);
+                        grComposicion.FillPath(Brushes.White, path);
 
-                    Indice_COLUMNA++;
+                        path.Reset();
+
+                        Indice_COLUMNA++;
+                    }
+
+                    Indice_FILA++;
+                    Indice_COLUMNA = 0;
+
+                    barraProgreso.PerformStep();
                 }
 
-                Indice_FILA++;
-                Indice_COLUMNA = 0;
+                bmpComposicion.Save(rutaGuardadoTroceada + nombreFich + "_composicion." + extensionGuardado);
 
-                barraProgreso.PerformStep();
+                if (chkGenerarReporte.Checked)
+                    Generar_Reporte_Fichas(rutaGuardadoTroceada + nombreFich + ".txt");
+
+                Mostrar_Mensaje_Estado("Imagen troceada correctamente en: ", rutaGuardadoTroceada, rutaGuardadoTroceada);
             }
 
-            bmpComposicion.Save(rutaGuardadoTroceada + nombreFich + "_composicion." + extensionGuardado);
-            
-            if (chkGenerarReporte.Checked)
-                Generar_Reporte_Fichas(rutaGuardadoTroceada + nombreFich + ".txt");
-
-            Mostrar_Mensaje_Estado("Imagen troceada correctamente en: ", rutaGuardadoTroceada, rutaGuardadoTroceada);
-            
             bmpComposicion.Dispose();
             bmpComposicion = null;
         }
