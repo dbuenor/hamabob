@@ -674,6 +674,10 @@ namespace Proyecto_Hamma_Beads.Librerias
 
         protected ColorHama EncontrarColorParecido(Color colorOriginal, List<ColorHama> coloresSeleccionados)
         {
+            ///TO DO:
+            ///Sería bueno mantener una especie de caché para que cuando encuentre un color parecido, no tenga que volver a calcularlo en un futuro, así
+            ///me ahorro volver a tener que calcularlo de nuevo, y la mayoría de las veces ya estará pre-calculado, pero habría que comprobar si esto mejorará
+            ///de forma significativa el rendimiento, o esa búsqueda en la caché aumentará el tiempo de proceso.
             double dbl_input_red = Convert.ToDouble(colorOriginal.R);
             double dbl_input_green = Convert.ToDouble(colorOriginal.G);
             double dbl_input_blue = Convert.ToDouble(colorOriginal.B);
