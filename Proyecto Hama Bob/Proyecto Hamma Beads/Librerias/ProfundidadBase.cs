@@ -82,17 +82,6 @@ namespace Proyecto_Hamma_Beads.Librerias
 
         #region Resto Funciones
 
-        //public virtual void PintarImagenSOLONumero(int pixelInicio, Color colorFondo, int pixelesFila)
-        //{
-        //    int posActual = pixelInicio;
-            
-        //    ColorHama col = new ColorHama(colorFondo);
-
-        //    PintarRecuadroHama(posActual, pixelesFila, pixelInicio, colorFondo);
-
-        //    PintarNumero(0, posActual, pixelesFila);
-        //}
-
         public virtual void PintarImagenSOLOColor(int pixelInicio, Color colorFondo, List<ColorHama> coloresSeleccionados)
         {
             int posActual = pixelInicio;
@@ -647,86 +636,7 @@ namespace Proyecto_Hamma_Beads.Librerias
             sw.Stop();
 
             Console.WriteLine("TIEMPO USADO ==> " + sw.ElapsedMilliseconds.ToString());
-        }
-
-        ///// <summary>
-        ///// Funcion que nos procesa una imagen, y nos pinta los numeros de cada color Hama.
-        ///// </summary>
-        ///// <param name="pintarNumHama">Parametro booleano que indica si queremos pintar o no los numeros correspondientes al color Parecido</param>
-        //public virtual void ProcesarImagen()
-        //{
-        //    Stopwatch sw = new Stopwatch();
-
-        //    sw.Start();
-
-        //    for (int y = 0; y < bmpOriginal.Height; y++)
-        //    {
-        //        System.Threading.Tasks.Parallel.For(0, bmpOriginal.Width, iteracion =>
-        //        {
-        //            ProcesarImagenBitsSOLONumero(iteracion * step, y);
-        //        });
-        //    }
-           
-        //    sw.Stop();
-
-        //    Console.WriteLine("TIEMPO USADO ==> " + sw.ElapsedMilliseconds.ToString());
-        //}
-
-        protected ColorHama EncontrarColorParecido(Color colorOriginal, List<ColorHama> coloresSeleccionados)
-        {
-            ///TO DO:
-            ///Sería bueno mantener una especie de caché para que cuando encuentre un color parecido, no tenga que volver a calcularlo en un futuro, así
-            ///me ahorro volver a tener que calcularlo de nuevo, y la mayoría de las veces ya estará pre-calculado, pero habría que comprobar si esto mejorará
-            ///de forma significativa el rendimiento, o esa búsqueda en la caché aumentará el tiempo de proceso.
-            double dbl_input_red = Convert.ToDouble(colorOriginal.R);
-            double dbl_input_green = Convert.ToDouble(colorOriginal.G);
-            double dbl_input_blue = Convert.ToDouble(colorOriginal.B);
-
-            double dbl_test_red, dbl_test_green, dbl_test_blue, temp;
-            double distance = double.MaxValue;
-
-            ColorHama colorSimilar = null;
-
-            foreach (ColorHama _colorHama in coloresSeleccionados)
-            {
-                // compute the Euclidean distance between the two colors
-                // note, that the alpha-component is not used in this example
-                dbl_test_red = Math.Pow(Convert.ToDouble((_colorHama.Colorciko).R) - dbl_input_red, 2.0);
-                dbl_test_green = Math.Pow(Convert.ToDouble
-                    ((_colorHama.Colorciko).G) - dbl_input_green, 2.0);
-                dbl_test_blue = Math.Pow(Convert.ToDouble
-                    ((_colorHama.Colorciko).B) - dbl_input_blue, 2.0);
-                // it is not necessary to compute the square root
-                // it should be sufficient to use:
-                // temp = dbl_test_blue + dbl_test_green + dbl_test_red;
-                // if you plan to do so, the distance should be initialized by 250000.0
-                temp = Math.Sqrt(dbl_test_blue + dbl_test_green + dbl_test_red);
-                // explore the result and store the nearest color
-                if (temp == 0.0)
-                {
-                    // the lowest possible distance is - of course - zero
-                    // so I can break the loop (thanks to Willie Deutschmann)
-                    // here I could return the input_color itself
-                    // but in this example I am using a list with named colors
-                    // and I want to return the Name-property too
-                    colorSimilar = _colorHama;
-                    break;
-                }
-                else if (temp < distance)
-                {
-                    distance = temp;
-                    colorSimilar = _colorHama;
-                }
-            }
-
-            if (colorSimilar != null)
-            {
-                colorSimilar.NumPiezas++;
-                //nearest_color = colorSimilar.Colorciko;
-            }
-
-            return colorSimilar;
-        }
+        }        
 
         #endregion
         #endregion

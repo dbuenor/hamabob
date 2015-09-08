@@ -51,34 +51,6 @@ namespace Proyecto_Hamma_Beads.Librerias
                 , coloresSeleccionados);
         }
 
-        ///// <summary>
-        ///// Proceso la imagen para generar una procesada en funcion de los colores seleccionados. NO pinta los números, solo pinta el color más aproximado.
-        ///// </summary>
-        ///// <param name="coloresSeleccionados"></param>
-        ///// <param name="x"></param>
-        ///// <param name="y"></param>
-        //public override void ProcesarImagenBitsSOLONumero(int x, int y)
-        //{
-        //    PintarImagenSOLONumero((x * AnchoHamaGen) + (bmpDataGen.Stride * AltoHamaGen * y)
-        //        , Color.FromArgb(
-        //            Pixeles[x + (bmpData.Stride * y) + 2],
-        //            Pixeles[x + (bmpData.Stride * y) + 1],
-        //            Pixeles[x + (bmpData.Stride * y)]
-        //            )                
-        //        , bmpDataGen.Stride);
-        //}   
-
-        public override void PintarImagenSOLOColor(int pixelInicio, Color colorFondo, List<ColorHama> coloresSeleccionados)
-        {
-            int posActual = pixelInicio;
-
-            ColorHama colorParecido;
-
-            colorParecido = Common.EncontrarColorParecido(colorFondo, coloresSeleccionados);
-
-            PintarPixel(pixelInicio, colorParecido.Colorciko);
-        }
-
         public override void PintarDigito(int numero, int posActual, int pixelesFila, eDigito digito)
         {
             int pixel;
