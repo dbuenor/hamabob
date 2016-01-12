@@ -115,8 +115,6 @@ namespace Proyecto_Hamma_Beads.Formularios
             listaColores.Add(new ColorHama(Color.FromArgb(161, 158, 158), ColorHama.eTamanioHama.MIDI, ColorHama.eTipoHama.NORMAL, "H62", 62));
             listaColores.Add(new ColorHama(Color.FromArgb(143, 114, 36), ColorHama.eTamanioHama.MIDI, ColorHama.eTipoHama.NORMAL, "H63", 63));
             listaColores.Add(new ColorHama(Color.FromArgb(231, 222, 218), ColorHama.eTamanioHama.MIDI, ColorHama.eTipoHama.NORMAL, "H64", 64));
-            listaColores.Add(new ColorHama(Color.FromArgb(205, 207, 213), ColorHama.eTamanioHama.AMBOS, ColorHama.eTipoHama.NORMAL, "H70", 70));
-            listaColores.Add(new ColorHama(Color.FromArgb(48, 54, 60), ColorHama.eTamanioHama.AMBOS, ColorHama.eTipoHama.NORMAL, "H71", 71));
             #endregion
         }
 
@@ -2339,9 +2337,9 @@ namespace Proyecto_Hamma_Beads.Formularios
                 // Unlock bitmap data
                 _bmp.UnlockBits(_bmpData);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -2822,7 +2820,7 @@ namespace Proyecto_Hamma_Beads.Formularios
         }
         #endregion
 
-        void procesador_StepDone()
+        void procesador_StepDone(object sender, EventArgs e)
         {
             if (barraProgreso.InvokeRequired)
             {

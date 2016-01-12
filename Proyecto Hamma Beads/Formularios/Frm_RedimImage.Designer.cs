@@ -18,6 +18,9 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+
+            if (_bmpImagen != null)
+                _bmpImagen.Dispose();
         }
 
         #region Windows Form Designer generated code

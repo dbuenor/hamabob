@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Proyecto_Hamma_Beads.Librerias
 {
+    [Serializable]
     public class cExcepcionControlada : System.Exception
     {
         public cExcepcionControlada(string Mensaje, System.Exception ex) : base(Mensaje, ex)

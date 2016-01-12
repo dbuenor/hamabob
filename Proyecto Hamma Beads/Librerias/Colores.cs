@@ -98,7 +98,7 @@ namespace Proyecto_Hamma_Beads
             public int NumPiezas { get; set; }
             public int Numero { get; set; }
 
-            public delegate void HabilitadoEventHandler();
+            public delegate void HabilitadoEventHandler(object sender, EventArgs e);
             //private HabilitadoEventHandler HabilitadoCambiado;
             public event HabilitadoEventHandler HabilitadoEvent;
 
@@ -114,7 +114,7 @@ namespace Proyecto_Hamma_Beads
                     if (value != _Habilitado)
                     {
                         _Habilitado = value;
-                        HabilitadoEvent();
+                        HabilitadoEvent(this, null);
                     }
                 }
             }

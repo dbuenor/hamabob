@@ -18,6 +18,19 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+
+            ///Añado los dispose de los bitmaps para que se destruyan
+            if (bmpComposicion != null)
+                bmpComposicion.Dispose();
+
+            if (bmpGenerado != null)
+                bmpGenerado.Dispose();
+
+            if (bmpOriginal != null)
+                bmpOriginal.Dispose();
+
+            if (bmpTroceada != null)
+                bmpTroceada.Dispose();
         }
 
         #region Código generado por el Diseñador de Windows Forms

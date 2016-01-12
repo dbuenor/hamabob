@@ -166,7 +166,7 @@ namespace Proyecto_Hamma_Beads.Controles
             this.OnMouseHover(e);
         }        
 
-        void Color_HabilitadoEvent()
+        void Color_HabilitadoEvent(object sender, EventArgs e)
         {
             chkColor.Checked = Color.Habilitado;
         }

@@ -30,8 +30,7 @@ namespace Proyecto_Hamma_Beads.Formularios
                 }
             }
         }
-        private Bitmap _bmpImagen;
-        private Common.Medida _AnchoOriginal, _AltoOriginal, _Ancho, _Alto;
+        private Bitmap _bmpImagen;        
 
         /// <summary>
         /// Medida del Ancho Original de la foto.        
@@ -179,28 +178,28 @@ namespace Proyecto_Hamma_Beads.Formularios
 
         private void Recargar_Datos()
         {
-            AltoOriginal_MedidaCambiada();
-            Alto_MedidaCambiada();
-            Ancho_MedidaCambiada();
-            AnchoOriginal_MedidaCambiada();            
+            AltoOriginal_MedidaCambiada(this, null);
+            Alto_MedidaCambiada(this, null);
+            Ancho_MedidaCambiada(this, null);
+            AnchoOriginal_MedidaCambiada(this, null);            
         }
 
-        void AltoOriginal_MedidaCambiada()
+        void AltoOriginal_MedidaCambiada(object sender, EventArgs e)
         {
             txtAltoOriginal.Text = AltoOriginal.Devolver_Medida(TipoMedida).ToString();
         }
 
-        void AnchoOriginal_MedidaCambiada()
+        void AnchoOriginal_MedidaCambiada(object sender, EventArgs e)
         {
             txtAnchoOriginal.Text = AnchoOriginal.Devolver_Medida(TipoMedida).ToString();
         }
 
-        void Alto_MedidaCambiada()
+        void Alto_MedidaCambiada(object sender, EventArgs e)
         {
             txtAlto.Text = Alto.Devolver_Medida(TipoMedida).ToString();
         }
 
-        void Ancho_MedidaCambiada()
+        void Ancho_MedidaCambiada(object sender, EventArgs e)
         {
             txtAncho.Text = Ancho.Devolver_Medida(TipoMedida).ToString();
         }
