@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Proyecto_Hamma_Beads
+namespace HammaBob
 {
-    static class Program
-    {
-        /// <summary>
-        /// Punto de entrada principal para la aplicación.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Formularios.MDIPrincipal());
-        }
-    }
+	static class Program
+	{
+		/// <summary>
+		/// Punto de entrada principal para la aplicación.
+		/// </summary>
+		[STAThread]
+		static void Main()
+		{
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+			Application.Run(new Formularios.MDIPrincipal());
+		}
+	}
 }

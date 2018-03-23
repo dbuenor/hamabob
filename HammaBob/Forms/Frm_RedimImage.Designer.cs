@@ -1,4 +1,4 @@
-﻿namespace Proyecto_Hamma_Beads.Formularios
+﻿namespace HammaBob.Formularios
 {
     partial class Frm_RedimImage
     {

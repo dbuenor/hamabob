@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Proyecto_Hamma_Beads.Controles
+namespace HammaBob.Controles
 {
     public partial class colorCheckBox : UserControl
     {
@@ -41,16 +41,16 @@ namespace Proyecto_Hamma_Beads.Controles
             }
         }
 
-        public ColorHama.eTipoHama Tipo
+        public HammaColour.HammaType Tipo
         {
             get
             {
-                return _color.Tipo;
+                return _color.Type;
             }            
         }
 
         private eLadoCuadrado _lado = eLadoCuadrado.Izquierda;
-        private ColorHama _color;
+        private HammaColour _color;
 
         #region Propiedades Publicas        
         public eLadoCuadrado LadoCuadrado
@@ -102,7 +102,7 @@ namespace Proyecto_Hamma_Beads.Controles
                 return this.Width;
             }
         }
-        public ColorHama Color
+        public HammaColour Color
         {
             get
             {
@@ -113,7 +113,7 @@ namespace Proyecto_Hamma_Beads.Controles
                 if (_color == null)
                 {
                     _color = value;
-                    Color.HabilitadoEvent += new ColorHama.HabilitadoEventHandler(Color_HabilitadoEvent);
+                    Color.EnabledEvent += new HammaColour.EnabledEventHandler(Color_HabilitadoEvent);
                 }
                 else
                 {
@@ -168,19 +168,19 @@ namespace Proyecto_Hamma_Beads.Controles
 
         void Color_HabilitadoEvent()
         {
-            chkColor.Checked = Color.Habilitado;
+            chkColor.Checked = Color.Enabled;
         }
 
         void chkColor_CheckedChanged(object sender, EventArgs e)
         {
-            Color.Habilitado = chkColor.Checked;
+            Color.Enabled = chkColor.Checked;
         }
 
         private void pnlRecuadroColor_Paint(object sender, PaintEventArgs e)
         {
-            if (!Color.Colorciko.IsEmpty)
+            if (!Color.Colour.IsEmpty)
             {                
-                SolidBrush relleno = new SolidBrush(Color.Colorciko);
+                SolidBrush relleno = new SolidBrush(Color.Colour);
                 Rectangle rect = new Rectangle(0, 1, AnchoCuadrado, AltoCuadrado);
                 System.Drawing.Graphics graficos = e.Graphics;
                 Pen borde = new Pen(Brushes.Black, 1);

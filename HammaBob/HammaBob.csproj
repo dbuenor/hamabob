@@ -8,8 +8,8 @@
     <ProjectGuid>{60E6F86B-4501-4CAB-BB81-CE4D65176B74}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Proyecto_Hamma_Beads</RootNamespace>
-    <AssemblyName>Proyecto Hamma Beads</AssemblyName>
+    <RootNamespace>HammaBob</RootNamespace>
+    <AssemblyName>HammaBob</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -49,7 +49,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Proyecto_Hamma_Beads.Program</StartupObject>
+    <StartupObject>HammaBob.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\logo.ico</ApplicationIcon>
@@ -103,7 +103,7 @@
     <Compile Include="Forms\MDIPrincipal.Designer.cs">
       <DependentUpon>MDIPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Libraries\cExcepcionControlada.cs" />
+    <Compile Include="Libraries\CustomException.cs" />
     <Compile Include="Libraries\Colores.cs" />
     <Compile Include="Libraries\Common.cs" />
     <Compile Include="Libraries\IProfundidad.cs" />

@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Proyecto_Hamma_Beads.Librerias;
+using HammaBob.Libraries;
 
-namespace Proyecto_Hamma_Beads.Formularios
+namespace HammaBob.Formularios
 {
     public partial class Frm_RedimImage : Form
     {
@@ -31,23 +31,23 @@ namespace Proyecto_Hamma_Beads.Formularios
             }
         }
         private Bitmap _bmpImagen;
-        private Common.Medida _AnchoOriginal, _AltoOriginal, _Ancho, _Alto;
+        private Common.Size _AnchoOriginal, _AltoOriginal, _Ancho, _Alto;
 
         /// <summary>
         /// Medida del Ancho Original de la foto.        
         /// </summary>
-        public Common.Medida AnchoOriginal { get; set; }
+        public Common.Size AnchoOriginal { get; set; }
         
         /// <summary>
         /// Medida del Alto Original de la foto.
         /// </summary>
-        public Common.Medida AltoOriginal { get; set; }
+        public Common.Size AltoOriginal { get; set; }
         
-        public Common.Medida Ancho { get; set; }        
+        public Common.Size Ancho { get; set; }        
 
-        public Common.Medida Alto { get; set; }
+        public Common.Size Alto { get; set; }
         
-        public eTipoMedida TipoMedida { get; set; }
+        public MeasureType TipoMedida { get; set; }
 
         #endregion
 
@@ -68,10 +68,10 @@ namespace Proyecto_Hamma_Beads.Formularios
             {
                 _bmpImagen = new Bitmap(RutaImagen);
                 pbImagen.Image = _bmpImagen;
-                AnchoOriginal.Px = _bmpImagen.Width;
-                AltoOriginal.Px = _bmpImagen.Height;
-                Ancho.Px = AnchoOriginal.Px;
-                Alto.Px = AltoOriginal.Px;
+                AnchoOriginal.Pixels = _bmpImagen.Width;
+                AltoOriginal.Pixels = _bmpImagen.Height;
+                Ancho.Pixels = AnchoOriginal.Pixels;
+                Alto.Pixels = AltoOriginal.Pixels;
             }
         }
 
@@ -88,26 +88,26 @@ namespace Proyecto_Hamma_Beads.Formularios
         private void txtAncho_Leave(object sender, EventArgs e)
         {
             double ratio = 0;
-            Ancho.Establecer_Valor(TipoMedida, txtAncho.Text);
+            Ancho.SetSize(TipoMedida, txtAncho.Text);
 
             if (chkMantenerProporciones.Checked)
             {
-                ratio = Calcular_Ratio_Proporcion(AnchoOriginal.Px, Ancho.Px);
+                ratio = Calcular_Ratio_Proporcion(AnchoOriginal.Pixels, Ancho.Pixels);
 
-                Alto.Px = Convert.ToInt16(Math.Round(AltoOriginal.Px / ratio));
+                Alto.Pixels = Convert.ToInt16(Math.Round(AltoOriginal.Pixels / ratio));
             }               
         }        
 
         private void txtAlto_Leave(object sender, EventArgs e)
         {
             double ratio = 0;
-            Alto.Establecer_Valor(TipoMedida, txtAlto.Text);
+            Alto.SetSize(TipoMedida, txtAlto.Text);
 
             if (chkMantenerProporciones.Checked)
             {
-                ratio = Calcular_Ratio_Proporcion(AltoOriginal.Px, Alto.Px);
+                ratio = Calcular_Ratio_Proporcion(AltoOriginal.Pixels, Alto.Pixels);
 
-                Ancho.Px = Convert.ToInt16(Math.Round(AnchoOriginal.Px / ratio));
+                Ancho.Pixels = Convert.ToInt16(Math.Round(AnchoOriginal.Pixels / ratio));
             }
         }
 
@@ -151,28 +151,28 @@ namespace Proyecto_Hamma_Beads.Formularios
 
         private void Cargar_Combo_Medidas()
         {
-            cmbTipoMedida.DataSource = Enum.GetNames(typeof(eTipoMedida));
+            cmbTipoMedida.DataSource = Enum.GetNames(typeof(MeasureType));
             cmbTipoMedida.SelectedIndex = 0;
         }
 
         private void Inicializar_Medidas()
         {
             ///inicializo las variables de medida
-            Ancho = new Common.Medida();
-            Alto = new Common.Medida();
-            AnchoOriginal = new Common.Medida();
-            AltoOriginal = new Common.Medida();
+            Ancho = new Common.Size();
+            Alto = new Common.Size();
+            AnchoOriginal = new Common.Size();
+            AltoOriginal = new Common.Size();
 
-            Ancho.MedidaCambiada += new Common.Medida.MedidaCambiadaEvent(Ancho_MedidaCambiada);
-            Alto.MedidaCambiada += new Common.Medida.MedidaCambiadaEvent(Alto_MedidaCambiada);
-            AnchoOriginal.MedidaCambiada += new Common.Medida.MedidaCambiadaEvent(AnchoOriginal_MedidaCambiada);
-            AltoOriginal.MedidaCambiada += new Common.Medida.MedidaCambiadaEvent(AltoOriginal_MedidaCambiada);
+            Ancho.SizeChanged += new Common.Size.SizeChangedEvent(Ancho_MedidaCambiada);
+            Alto.SizeChanged += new Common.Size.SizeChangedEvent(Alto_MedidaCambiada);
+            AnchoOriginal.SizeChanged += new Common.Size.SizeChangedEvent(AnchoOriginal_MedidaCambiada);
+            AltoOriginal.SizeChanged += new Common.Size.SizeChangedEvent(AltoOriginal_MedidaCambiada);
         }        
 
         //Cambia el tipo de Medida
         private void cmbTipoMedida_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TipoMedida = (eTipoMedida) cmbTipoMedida.SelectedIndex;
+            TipoMedida = (MeasureType) cmbTipoMedida.SelectedIndex;
 
             Recargar_Datos();
         }
@@ -187,22 +187,22 @@ namespace Proyecto_Hamma_Beads.Formularios
 
         void AltoOriginal_MedidaCambiada()
         {
-            txtAltoOriginal.Text = AltoOriginal.Devolver_Medida(TipoMedida).ToString();
+            txtAltoOriginal.Text = AltoOriginal.GetSize(TipoMedida).ToString();
         }
 
         void AnchoOriginal_MedidaCambiada()
         {
-            txtAnchoOriginal.Text = AnchoOriginal.Devolver_Medida(TipoMedida).ToString();
+            txtAnchoOriginal.Text = AnchoOriginal.GetSize(TipoMedida).ToString();
         }
 
         void Alto_MedidaCambiada()
         {
-            txtAlto.Text = Alto.Devolver_Medida(TipoMedida).ToString();
+            txtAlto.Text = Alto.GetSize(TipoMedida).ToString();
         }
 
         void Ancho_MedidaCambiada()
         {
-            txtAncho.Text = Ancho.Devolver_Medida(TipoMedida).ToString();
+            txtAncho.Text = Ancho.GetSize(TipoMedida).ToString();
         }
 
         #endregion

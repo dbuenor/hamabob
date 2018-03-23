@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Proyecto_Hamma_Beads.Formularios
+namespace HammaBob.Formularios
 {
     partial class Frm_AcercaDe : Form
     {

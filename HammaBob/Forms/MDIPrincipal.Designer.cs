@@ -1,4 +1,4 @@
-﻿namespace Proyecto_Hamma_Beads.Formularios
+﻿namespace HammaBob.Formularios
 {
     partial class MDIPrincipal
     {
@@ -107,8 +107,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.cmbTipoMedida = new System.Windows.Forms.ToolStripComboBox();
-            this.pbZoomOriginal = new Proyecto_Hamma_Beads.Controles.PictureBoxZoom();
-            this.pbZoomGenerada = new Proyecto_Hamma_Beads.Controles.PictureBoxZoom();
+            this.pbZoomOriginal = new HammaBob.Controles.PictureBoxZoom();
+            this.pbZoomGenerada = new HammaBob.Controles.PictureBoxZoom();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -166,7 +166,7 @@
             // 
             // cargarImagenToolStripMenuItem
             // 
-            this.cargarImagenToolStripMenuItem.Image = global::Proyecto_Hamma_Beads.Properties.Resources.load;
+            this.cargarImagenToolStripMenuItem.Image = global::HammaBob.Properties.Resources.load;
             this.cargarImagenToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black;
             this.cargarImagenToolStripMenuItem.Name = "cargarImagenToolStripMenuItem";
             this.cargarImagenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
@@ -177,7 +177,7 @@
             // generarImagenToolStripMenuItem
             // 
             this.generarImagenToolStripMenuItem.Enabled = false;
-            this.generarImagenToolStripMenuItem.Image = global::Proyecto_Hamma_Beads.Properties.Resources._1380324300_Play;
+            this.generarImagenToolStripMenuItem.Image = global::HammaBob.Properties.Resources._1380324300_Play;
             this.generarImagenToolStripMenuItem.Name = "generarImagenToolStripMenuItem";
             this.generarImagenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.generarImagenToolStripMenuItem.Text = "&Generar Imagen";
@@ -186,7 +186,7 @@
             // guardarToolStripMenuItem
             // 
             this.guardarToolStripMenuItem.Enabled = false;
-            this.guardarToolStripMenuItem.Image = global::Proyecto_Hamma_Beads.Properties.Resources.save;
+            this.guardarToolStripMenuItem.Image = global::HammaBob.Properties.Resources.save;
             this.guardarToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Black;
             this.guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
             this.guardarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
@@ -197,7 +197,7 @@
             // trocearImagenToolStripMenuItem
             // 
             this.trocearImagenToolStripMenuItem.Enabled = false;
-            this.trocearImagenToolStripMenuItem.Image = global::Proyecto_Hamma_Beads.Properties.Resources._1381588740_transform_crop_resize;
+            this.trocearImagenToolStripMenuItem.Image = global::HammaBob.Properties.Resources._1381588740_transform_crop_resize;
             this.trocearImagenToolStripMenuItem.Name = "trocearImagenToolStripMenuItem";
             this.trocearImagenToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.trocearImagenToolStripMenuItem.Text = "&Trocear Imagen";
@@ -742,7 +742,7 @@
             // 
             this.tableLayoutPanel2.SetColumnSpan(this.btnGuardarConfig, 2);
             this.btnGuardarConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnGuardarConfig.Image = global::Proyecto_Hamma_Beads.Properties.Resources._1388157583_78;
+            this.btnGuardarConfig.Image = global::HammaBob.Properties.Resources._1388157583_78;
             this.btnGuardarConfig.Location = new System.Drawing.Point(3, 398);
             this.btnGuardarConfig.Name = "btnGuardarConfig";
             this.btnGuardarConfig.Size = new System.Drawing.Size(338, 24);
@@ -813,7 +813,7 @@
             // tsbtnNuevo
             // 
             this.tsbtnNuevo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbtnNuevo.Image = global::Proyecto_Hamma_Beads.Properties.Resources._new;
+            this.tsbtnNuevo.Image = global::HammaBob.Properties.Resources._new;
             this.tsbtnNuevo.ImageTransparentColor = System.Drawing.Color.Black;
             this.tsbtnNuevo.Name = "tsbtnNuevo";
             this.tsbtnNuevo.Size = new System.Drawing.Size(28, 27);
@@ -823,7 +823,7 @@
             // tsbtnCargarImagen
             // 
             this.tsbtnCargarImagen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbtnCargarImagen.Image = global::Proyecto_Hamma_Beads.Properties.Resources.load;
+            this.tsbtnCargarImagen.Image = global::HammaBob.Properties.Resources.load;
             this.tsbtnCargarImagen.ImageTransparentColor = System.Drawing.Color.Black;
             this.tsbtnCargarImagen.Name = "tsbtnCargarImagen";
             this.tsbtnCargarImagen.Size = new System.Drawing.Size(28, 27);
@@ -846,7 +846,7 @@
             // 
             this.tsbtnGuardarImagen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsbtnGuardarImagen.Enabled = false;
-            this.tsbtnGuardarImagen.Image = global::Proyecto_Hamma_Beads.Properties.Resources.save;
+            this.tsbtnGuardarImagen.Image = global::HammaBob.Properties.Resources.save;
             this.tsbtnGuardarImagen.ImageTransparentColor = System.Drawing.Color.Black;
             this.tsbtnGuardarImagen.Name = "tsbtnGuardarImagen";
             this.tsbtnGuardarImagen.Size = new System.Drawing.Size(28, 27);
@@ -857,7 +857,7 @@
             // 
             this.tsbtnTrocearImagen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsbtnTrocearImagen.Enabled = false;
-            this.tsbtnTrocearImagen.Image = global::Proyecto_Hamma_Beads.Properties.Resources._1381588740_transform_crop_resize;
+            this.tsbtnTrocearImagen.Image = global::HammaBob.Properties.Resources._1381588740_transform_crop_resize;
             this.tsbtnTrocearImagen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnTrocearImagen.Name = "tsbtnTrocearImagen";
             this.tsbtnTrocearImagen.Size = new System.Drawing.Size(28, 27);
@@ -873,7 +873,7 @@
             // 
             this.helpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.helpToolStripButton.Enabled = false;
-            this.helpToolStripButton.Image = global::Proyecto_Hamma_Beads.Properties.Resources.help;
+            this.helpToolStripButton.Image = global::HammaBob.Properties.Resources.help;
             this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Black;
             this.helpToolStripButton.Name = "helpToolStripButton";
             this.helpToolStripButton.Size = new System.Drawing.Size(28, 27);
@@ -934,7 +934,7 @@
             this.pbZoomOriginal.Size = new System.Drawing.Size(596, 202);
             this.pbZoomOriginal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
             this.pbZoomOriginal.TabIndex = 6;
-            this.pbZoomOriginal.TipoMedida = Proyecto_Hamma_Beads.Librerias.eTipoMedida.Pixeles;
+            this.pbZoomOriginal.TipoMedida = HammaBob.Libraries.MeasureType.Pixel;
             this.pbZoomOriginal.Zoom = 4;
             this.pbZoomOriginal.ZoomActivado = false;
             // 
@@ -951,7 +951,7 @@
             this.pbZoomGenerada.Size = new System.Drawing.Size(596, 202);
             this.pbZoomGenerada.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Normal;
             this.pbZoomGenerada.TabIndex = 7;
-            this.pbZoomGenerada.TipoMedida = Proyecto_Hamma_Beads.Librerias.eTipoMedida.Pixeles;
+            this.pbZoomGenerada.TipoMedida = HammaBob.Libraries.MeasureType.Pixel;
             this.pbZoomGenerada.Zoom = 8;
             this.pbZoomGenerada.ZoomActivado = false;
             // 

@@ -1,4 +1,4 @@
-﻿namespace Proyecto_Hamma_Beads.Controles
+﻿namespace HammaBob.Controles
 {
     partial class colorCheckBox
     {

@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
-using Proyecto_Hamma_Beads.Librerias;
+using HammaBob.Libraries;
 
-namespace Proyecto_Hamma_Beads.Controles
+namespace HammaBob.Controles
 {
     public partial class PictureBoxZoom : UserControl
     {
@@ -19,10 +19,10 @@ namespace Proyecto_Hamma_Beads.Controles
         private int _AumentoZoom = 2;
         private static ToolTip tt = new ToolTip();
 
-        public Common.Medida Ancho, Alto;
+        public Common.Size Ancho, Alto;
         
-        private eTipoMedida _TipoMedida;
-        public eTipoMedida TipoMedida
+        private MeasureType _TipoMedida;
+        public MeasureType TipoMedida
         {
             get
             {
@@ -143,8 +143,8 @@ namespace Proyecto_Hamma_Beads.Controles
                 pbImagen.Image = value;
                 if (pbImagen.Image != null)
                 {
-                    Ancho.Px = pbImagen.Image.Width;
-                    Alto.Px = pbImagen.Image.Height;
+                    Ancho.Pixels = pbImagen.Image.Width;
+                    Alto.Pixels = pbImagen.Image.Height;
 
                     Actualizar_Medidas();
                 }                    
@@ -153,10 +153,10 @@ namespace Proyecto_Hamma_Beads.Controles
 
         private void Actualizar_Medidas()
         {
-            this.lblMedidas.Text = Ancho.Devolver_Medida(TipoMedida) + "x" + Alto.Devolver_Medida(TipoMedida);
-            if (TipoMedida == eTipoMedida.Pixeles)
+            this.lblMedidas.Text = Ancho.GetSize(TipoMedida) + "x" + Alto.GetSize(TipoMedida);
+            if (TipoMedida == MeasureType.Pixel)
                 this.lblMedidas.Text += " px";
-            else if (TipoMedida == eTipoMedida.Centimetros)
+            else if (TipoMedida == MeasureType.Centimeter)
                 this.lblMedidas.Text += " cm";
         }
 
@@ -195,22 +195,22 @@ namespace Proyecto_Hamma_Beads.Controles
 
             this.Size = new Size(200, 100);
 
-            Ancho = new Common.Medida();
-            Alto = new Common.Medida();
+            Ancho = new Common.Size();
+            Alto = new Common.Size();
 
             Add_ToolTips();
 
-            TipoMedida = eTipoMedida.Pixeles;
+            TipoMedida = MeasureType.Pixel;
         }
 
-        public PictureBoxZoom(eTipoMedida tipoMedida)
+        public PictureBoxZoom(MeasureType tipoMedida)
         {
             InitializeComponent();
 
             this.Size = new Size(200, 100);
 
-            Alto = new Common.Medida();
-            Ancho = new Common.Medida();            
+            Alto = new Common.Size();
+            Ancho = new Common.Size();            
 
             Add_ToolTips();
 

@@ -5,18 +5,18 @@ using System.Text;
 using System.Drawing;
 
 
-namespace Proyecto_Hamma_Beads.Librerias
+namespace HammaBob.Libraries
 {
-    interface IProfundidad
-    {        
-        void ProcesarImagen(List<ColorHama> coloresSeleccionados, bool pintarNumHama);
-        void ProcesarImagenBits(List<ColorHama> coloresSeleccionados, int x, int y);
-        void PintarImagen(int pixelInicio, Color colorFondo, int pixelesFila, List<ColorHama> coloresSeleccionados);
-        void PintarNumero(int numero, int posActual, int pixelesFila);
-        void PintarDigito(int numero, int posActual, int pixelesFila, eDigito digito);
-        void PintarRecuadroHama(int posActual, int pixelesFila, int pixelInicio, Color color);
-        void PintarFilaEnteraColor(int posicion, Color color);
-        void PintarFilaEnteraConBorde(int posicion, Color color, Color colorBorde);
-        void PintarPixel(int posicion, Color color);
-    }
+	interface IDepth
+	{
+		void ProcessImage(IEnumerable<HammaColour> selectedColours, bool paintHammaNumber);
+		void ProcessImageBits(IEnumerable<HammaColour> selectedColours, int x, int y);
+		void DrawImage(int initialPixel, Color backgroundColour, int rowPixels, IEnumerable<HammaColour> selectedColours);
+		void DrawNumber(int number, int actualPosition, int rowPixels);
+		void DrawDigit(int number, int actualPosition, int rowPixels, DigitPosition digit);
+		void DrawHammaSquare(int actualPosition, int rowPixels, int initialPixel, Color colour);
+		void DrawFullRowColour(int position, Color colour);
+		void DrawFullRowWithBorder(int position, Color colour, Color borderColour);
+		void DrawPixel(int pòsition, Color colour);
+	}
 }
